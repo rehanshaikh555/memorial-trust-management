@@ -17,6 +17,7 @@ if str(API_ROOT) not in sys.path:
     sys.path.insert(0, str(API_ROOT))
 
 
+from app.core.config import settings
 from app.db.base import Base
 from app import models
 
@@ -25,6 +26,20 @@ config = context.config
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
+
+
+if not settings.database_url:
+    raise RuntimeError(
+        "DATABASE_URL is not configured. "
+        "Create apps/api/.env and set DATABASE_URL before running Alembic."
+    )
+
+# Use the same database configuration as the FastAPI application.
+# Escape '%' because ConfigParser treats it as interpolation syntax.
+config.set_main_option(
+    "sqlalchemy.url",
+    settings.database_url.replace("%", "%%"),
+)
 
 
 # Importing app.models registers all model tables with Base.metadata.

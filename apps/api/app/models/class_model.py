@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import ForeignKey, Integer, String, UniqueConstraint
+from sqlalchemy import ForeignKey, Index, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -36,9 +36,9 @@ class Class(TimestampMixin, Base):
         nullable=False,
     )
 
-    grade_level: Mapped[int | None] = mapped_column(
+    grade_level: Mapped[int] = mapped_column(
         Integer,
-        nullable=True,
+        nullable=False,
     )
 
     section: Mapped[str | None] = mapped_column(
@@ -52,10 +52,23 @@ class Class(TimestampMixin, Base):
     )
 
     __table_args__ = (
-        UniqueConstraint(
+        Index(
+            "uq_class_school_year_grade_section",
             "school_id",
             "academic_year_id",
-            "name",
-            name="uq_class_school_year_name",
+            "grade_level",
+            "section",
+            unique=True,
+            postgresql_where=section.is_not(None),
+        ),
+        Index(
+            "uq_class_school_year_grade_no_section",
+            "school_id",
+            "academic_year_id",
+            "grade_level",
+            unique=True,
+            postgresql_where=section.is_(None),
         ),
     )
+
+

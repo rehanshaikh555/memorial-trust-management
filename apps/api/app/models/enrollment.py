@@ -1,7 +1,7 @@
 import uuid
 from datetime import date
 
-from sqlalchemy import Date, ForeignKey, String, UniqueConstraint
+from sqlalchemy import Date, ForeignKey, Index, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -11,12 +11,12 @@ from app.db.mixins import TimestampMixin
 
 class Enrollment(TimestampMixin, Base):
     __tablename__ = "enrollments"
-
     __table_args__ = (
-        UniqueConstraint(
+        Index(
+            "ix_enrollments_student_year_date",
             "student_id",
             "academic_year_id",
-            name="uq_student_academic_year_enrollment",
+            "enrollment_date",
         ),
     )
 
@@ -71,3 +71,4 @@ class Enrollment(TimestampMixin, Base):
         server_default="ACTIVE",
         index=True,
     )
+

@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import Boolean, ForeignKey, PrimaryKeyConstraint
+from sqlalchemy import Boolean, ForeignKey, Index, PrimaryKeyConstraint, text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -32,5 +32,11 @@ class StudentGuardian(Base):
         PrimaryKeyConstraint(
             "student_id",
             "guardian_id",
+        ),
+        Index(
+            "uq_student_guardians_one_primary",
+            "student_id",
+            unique=True,
+            postgresql_where=text("is_primary = true"),
         ),
     )
