@@ -96,9 +96,11 @@ def update_trust(
         )
 
     try:
-        return TrustService.update(db, trust, data)
+        trust = TrustService.update(db, trust, data)
     except ValueError as exc:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail=str(exc),
         ) from exc
+
+    return trust
