@@ -1,6 +1,7 @@
-from enum import StrEnum
+﻿from enum import StrEnum
 
 class Permission(StrEnum):
+    TRUST_CREATE = "trust.create"
     TRUST_READ = "trust.read"
     TRUST_UPDATE = "trust.update"
 

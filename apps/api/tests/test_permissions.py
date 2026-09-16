@@ -7,10 +7,11 @@ def test_permission_values_are_unique() -> None:
 
 
 def test_permission_catalog_count() -> None:
-    assert len(Permission) == 32
+    assert len(Permission) == 33
 
 
 def test_required_permissions_exist() -> None:
+    assert Permission.TRUST_CREATE.value == "trust.create"
     assert Permission.TRUST_READ.value == "trust.read"
     assert Permission.SCHOOL_READ.value == "school.read"
     assert Permission.STUDENT_READ.value == "student.read"

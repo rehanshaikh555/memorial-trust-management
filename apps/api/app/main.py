@@ -1,9 +1,10 @@
-from contextlib import asynccontextmanager
+﻿from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
 from app.api.router import router as system_router
 from app.api.v1.auth import router as auth_router
+from app.api.v1.trust import router as trust_router
 from app.core.config import settings
 from app.core.logging import configure_logging
 
@@ -25,3 +26,4 @@ app = FastAPI(
 app.include_router(system_router, prefix=settings.api_v1_prefix)
 
 app.include_router(auth_router, prefix=settings.api_v1_prefix)
+app.include_router(trust_router, prefix=settings.api_v1_prefix)
