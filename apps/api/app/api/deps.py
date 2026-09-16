@@ -1,4 +1,4 @@
-﻿from collections.abc import Generator
+from collections.abc import Generator
 from typing import Annotated
 
 from fastapi import Depends, HTTPException, status
@@ -10,6 +10,7 @@ from app.core.security import decode_token
 from app.db.session import SessionLocal
 from app.models.role import Role
 from app.models.user import User
+from app.services.authorization_service import has_permission
 
 
 bearer_scheme = HTTPBearer(auto_error=False)
@@ -31,7 +32,6 @@ def get_current_user(
     db: Annotated[Session, Depends(get_db)],
 ) -> User:
     """Return the authenticated active user."""
-
     if credentials is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -56,7 +56,6 @@ def get_current_user(
         )
 
     subject = payload.get("sub")
-
     if not subject:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -64,10 +63,7 @@ def get_current_user(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    user = db.scalar(
-        select(User).where(User.id == subject)
-    )
-
+    user = db.scalar(select(User).where(User.id == subject))
     if user is None or not user.is_active:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -82,24 +78,18 @@ def get_current_role(
     current_user: Annotated[User, Depends(get_current_user)],
     db: Annotated[Session, Depends(get_db)],
 ) -> Role:
-    """Return the authenticated user's role."""
-
-    role = db.scalar(
-        select(Role).where(Role.id == current_user.role_id)
-    )
-
+    """Return the authenticated user role."""
+    role = db.scalar(select(Role).where(Role.id == current_user.role_id))
     if role is None:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="User role is not configured.",
         )
-
     return role
 
 
 def require_roles(*allowed_roles: str):
     """Create a dependency that restricts access to specific roles."""
-
     def dependency(
         role: Annotated[Role, Depends(get_current_role)],
     ) -> Role:
@@ -108,9 +98,22 @@ def require_roles(*allowed_roles: str):
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="You do not have permission to perform this action.",
             )
-
         return role
+    return dependency
 
+
+def require_permission(permission: str):
+    """Create a dependency that requires a database-backed permission."""
+    def dependency(
+        current_user: Annotated[User, Depends(get_current_user)],
+        db: Annotated[Session, Depends(get_db)],
+    ) -> User:
+        if not has_permission(db, current_user, permission):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=f"Permission denied: {permission}",
+            )
+        return current_user
     return dependency
 
 

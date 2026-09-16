@@ -5,13 +5,8 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from app.core.config import settings
 
-
 if not settings.database_url:
-    raise RuntimeError(
-        "DATABASE_URL is not configured. "
-        "Set DATABASE_URL in the environment before starting the API."
-    )
-
+    raise RuntimeError("DATABASE_URL is not configured. Set DATABASE_URL in the environment before starting the API.")
 
 engine = create_engine(
     settings.database_url,
@@ -23,7 +18,6 @@ SessionLocal = sessionmaker(
     autoflush=False,
     autocommit=False,
 )
-
 
 def get_db() -> Generator[Session, None, None]:
     db = SessionLocal()

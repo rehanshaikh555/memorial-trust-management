@@ -1,4 +1,4 @@
-﻿fastapi
+fastapi
 uvicorn[standard]
 pydantic
 pydantic-settings
@@ -9,3 +9,6 @@ python-multipart
 argon2-cffi
 PyJWT
 email-validator
+
+pytest
+httpx
