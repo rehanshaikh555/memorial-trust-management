@@ -1,4 +1,5 @@
-﻿from enum import StrEnum
+from enum import StrEnum
+
 
 class Permission(StrEnum):
     TRUST_CREATE = "trust.create"
@@ -37,6 +38,12 @@ class Permission(StrEnum):
     ACTIVITY_SUBMIT = "activity.submit"
     ACTIVITY_APPROVE = "activity.approve"
     ACTIVITY_PUBLISH = "activity.publish"
+
+    ACADEMIC_YEAR_CREATE = "academic_year.create"
+    ACADEMIC_YEAR_READ = "academic_year.read"
+    ACADEMIC_YEAR_UPDATE = "academic_year.update"
+    ACADEMIC_YEAR_SET_CURRENT = "academic_year.set_current"
+    ACADEMIC_YEAR_DEACTIVATE = "academic_year.deactivate"
 
     REPORT_READ = "report.read"
     REPORT_GENERATE = "report.generate"

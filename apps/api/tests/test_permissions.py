@@ -7,7 +7,7 @@ def test_permission_values_are_unique() -> None:
 
 
 def test_permission_catalog_count() -> None:
-    assert len(Permission) == 33
+    assert len(Permission) == 38
 
 
 def test_required_permissions_exist() -> None:

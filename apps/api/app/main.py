@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from app.api.router import router as system_router
+from app.api.v1.academic_year import router as academic_year_router
 from app.api.v1.auth import router as auth_router
 from app.api.v1.school import router as school_router
 from app.api.v1.trust import router as trust_router
@@ -28,3 +29,4 @@ app.include_router(system_router, prefix=settings.api_v1_prefix)
 app.include_router(auth_router, prefix=settings.api_v1_prefix)
 app.include_router(trust_router, prefix=settings.api_v1_prefix)
 app.include_router(school_router, prefix=settings.api_v1_prefix)
+app.include_router(academic_year_router, prefix=settings.api_v1_prefix)
