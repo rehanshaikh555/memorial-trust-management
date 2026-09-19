@@ -11,6 +11,11 @@ class Permission(StrEnum):
     SCHOOL_UPDATE = "school.update"
     SCHOOL_DEACTIVATE = "school.deactivate"
 
+    CLASS_CREATE = "class.create"
+    CLASS_READ = "class.read"
+    CLASS_UPDATE = "class.update"
+    CLASS_DEACTIVATE = "class.deactivate"
+
     STUDENT_CREATE = "student.create"
     STUDENT_READ = "student.read"
     STUDENT_UPDATE = "student.update"

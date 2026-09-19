@@ -1,4 +1,4 @@
-﻿import uuid
+import uuid
 from datetime import date
 
 from sqlalchemy import Boolean, Date, ForeignKey, Index, String, Uuid, text
@@ -25,6 +25,12 @@ class Teacher(TimestampMixin, Base):
         index=True,
     )
 
+    school_id: Mapped[uuid.UUID] = mapped_column(
+        Uuid,
+        ForeignKey("schools.id", ondelete="RESTRICT"),
+        nullable=False,
+        index=True,
+    )
     teacher_id: Mapped[str] = mapped_column(
         String(50),
         unique=True,
