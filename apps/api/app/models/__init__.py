@@ -51,3 +51,4 @@ __all__ = [
     "User",
     "UserSchoolAccess",
 ]
+from app.models.attendance_correction import AttendanceCorrection

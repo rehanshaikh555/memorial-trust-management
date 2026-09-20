@@ -1,4 +1,4 @@
-﻿from calendar import monthrange
+from calendar import monthrange
 from datetime import date, datetime, timezone
 from uuid import UUID
 
@@ -283,10 +283,9 @@ def _enrollments_for_class(
             Enrollment.school_id == school_id,
             Enrollment.academic_year_id == academic_year_id,
             Enrollment.class_id == class_id,
-            Student.is_active.is_(True),
             Enrollment.enrollment_date <= attendance_date,
             (
-                Enrollment.exit_date.is_(None)
+                (Enrollment.exit_date.is_(None))
                 | (Enrollment.exit_date >= attendance_date)
             ),
         )
@@ -436,7 +435,7 @@ def bulk_mark(
     allowed = {item.id: item for item in enrollments}
 
     if not allowed:
-        raise ValueError("No active students are enrolled in this class.")
+        raise ValueError("No students are enrolled in this class on the selected date.")
 
     submitted_ids = [entry["enrollment_id"] for entry in entries]
 
@@ -445,7 +444,7 @@ def bulk_mark(
 
     if set(submitted_ids) != set(allowed):
         raise ValueError(
-            "Attendance submission must contain every active student exactly once."
+            "Attendance submission must contain every enrolled student exactly once."
         )
 
     existing = {
@@ -537,6 +536,8 @@ def list_attendance(
 ) -> list[dict]:
     _validate_scope(db, actor=actor, school_id=school_id)
 
+    role_name = _role_name(db, actor)
+
     statement = (
         select(Attendance, Enrollment, Student)
         .join(Enrollment, Enrollment.id == Attendance.enrollment_id)
@@ -572,6 +573,51 @@ def list_attendance(
     )
 
     rows = db.execute(statement).all()
+
+    if role_name == "TEACHER":
+        filtered_rows = []
+
+        teacher = db.scalar(
+            select(Teacher).where(
+                Teacher.user_id == actor.id,
+                Teacher.school_id == school_id,
+                Teacher.is_active.is_(True),
+            )
+        )
+
+        if teacher is None:
+            raise PermissionError(
+                "Teacher is not active or does not belong to this school."
+            )
+
+        for attendance, enrollment, student in rows:
+            assignment = db.scalar(
+                select(TeacherAssignment).where(
+                    TeacherAssignment.teacher_id == teacher.id,
+                    TeacherAssignment.school_id == school_id,
+                    TeacherAssignment.academic_year_id == enrollment.academic_year_id,
+                    TeacherAssignment.status == "ACTIVE",
+                    (
+                        (TeacherAssignment.class_id == enrollment.class_id)
+                        | TeacherAssignment.class_id.is_(None)
+                    ),
+                    TeacherAssignment.start_date <= attendance.attendance_date,
+                    (
+                        (TeacherAssignment.end_date.is_(None))
+                        | (
+                            TeacherAssignment.end_date
+                            >= attendance.attendance_date
+                        )
+                    ),
+                )
+            )
+
+            if assignment is not None:
+                filtered_rows.append(
+                    (attendance, enrollment, student)
+                )
+
+        rows = filtered_rows
 
     return [
         {
@@ -887,38 +933,92 @@ def _working_days(
     current = start_date
 
     while current <= end_date:
-        if overrides.get(current, True):
+        default_working_day = current.weekday() < 5
+
+        if overrides.get(current, default_working_day):
             total += 1
+
         current = date.fromordinal(current.toordinal() + 1)
 
     return total
 
 
+def _merge_date_ranges(
+    ranges: list[tuple[date, date]],
+) -> list[tuple[date, date]]:
+    if not ranges:
+        return []
+
+    ordered = sorted(ranges, key=lambda item: item[0])
+    merged = [ordered[0]]
+
+    for start, end in ordered[1:]:
+        previous_start, previous_end = merged[-1]
+
+        if start <= date.fromordinal(previous_end.toordinal() + 1):
+            merged[-1] = (
+                previous_start,
+                max(previous_end, end),
+            )
+        else:
+            merged.append((start, end))
+
+    return merged
+
+
 def _student_report(
     db: Session,
     *,
-    enrollment: Enrollment,
+    enrollments: list[Enrollment],
     student: Student,
     start_date: date,
     end_date: date,
 ) -> dict:
-    working_days = _working_days(
-        db,
-        school_id=enrollment.school_id,
-        academic_year_id=enrollment.academic_year_id,
-        start_date=start_date,
-        end_date=end_date,
-    )
+    relevant_ranges: list[tuple[date, date]] = []
 
-    records = list(
-        db.scalars(
-            select(Attendance).where(
-                Attendance.enrollment_id == enrollment.id,
-                Attendance.attendance_date >= start_date,
-                Attendance.attendance_date <= end_date,
+    for enrollment in enrollments:
+        enrollment_start = max(
+            start_date,
+            enrollment.enrollment_date,
+        )
+
+        enrollment_end = min(
+            end_date,
+            enrollment.exit_date or end_date,
+        )
+
+        if enrollment_start <= enrollment_end:
+            relevant_ranges.append(
+                (enrollment_start, enrollment_end)
             )
-        ).all()
-    )
+
+    merged_ranges = _merge_date_ranges(relevant_ranges)
+
+    working_days = 0
+
+    for range_start, range_end in merged_ranges:
+        working_days += _working_days(
+            db,
+            school_id=enrollments[0].school_id,
+            academic_year_id=enrollments[0].academic_year_id,
+            start_date=range_start,
+            end_date=range_end,
+        )
+
+    enrollment_ids = [enrollment.id for enrollment in enrollments]
+
+    records = []
+
+    if enrollment_ids:
+        records = list(
+            db.scalars(
+                select(Attendance).where(
+                    Attendance.enrollment_id.in_(enrollment_ids),
+                    Attendance.attendance_date >= start_date,
+                    Attendance.attendance_date <= end_date,
+                )
+            ).all()
+        )
 
     counts = {
         "PRESENT": 0,
@@ -941,12 +1041,16 @@ def _student_report(
         "student_id": student.id,
         "student_code": student.student_id,
         "student_name": " ".join(
-            part for part in
-            [student.first_name, student.middle_name, student.last_name]
+            part
+            for part in [
+                student.first_name,
+                student.middle_name,
+                student.last_name,
+            ]
             if part
         ),
-        "school_id": enrollment.school_id,
-        "academic_year_id": enrollment.academic_year_id,
+        "school_id": enrollments[0].school_id,
+        "academic_year_id": enrollments[0].academic_year_id,
         "working_days": working_days,
         "recorded_days": len(records),
         "present_days": counts["PRESENT"],
@@ -956,6 +1060,61 @@ def _student_report(
         "attendance_percentage": percentage,
     }
 
+def _validate_teacher_report_scope(
+    db: Session,
+    *,
+    actor: User,
+    school_id: UUID,
+    academic_year_id: UUID,
+    class_id: UUID | None,
+    start_date: date,
+    end_date: date,
+) -> None:
+    role_name = _role_name(db, actor)
+
+    if role_name != "TEACHER":
+        return
+
+    if class_id is None:
+        raise PermissionError(
+            "Teachers must request attendance reports for an assigned class."
+        )
+
+    teacher = db.scalar(
+        select(Teacher).where(
+            Teacher.user_id == actor.id,
+            Teacher.school_id == school_id,
+            Teacher.is_active.is_(True),
+        )
+    )
+
+    if teacher is None:
+        raise PermissionError(
+            "Teacher is not active in the requested school."
+        )
+
+    assignment = db.scalar(
+        select(TeacherAssignment).where(
+            TeacherAssignment.teacher_id == teacher.id,
+            TeacherAssignment.school_id == school_id,
+            TeacherAssignment.academic_year_id == academic_year_id,
+            TeacherAssignment.status == "ACTIVE",
+            (
+                (TeacherAssignment.class_id == class_id)
+                | TeacherAssignment.class_id.is_(None)
+            ),
+            TeacherAssignment.start_date <= end_date,
+            (
+                (TeacherAssignment.end_date.is_(None))
+                | (TeacherAssignment.end_date >= start_date)
+            ),
+        )
+    )
+
+    if assignment is None:
+        raise PermissionError(
+            "Teacher is not assigned to the requested class for the report period."
+        )
 
 def monthly_report(
     db: Session,
@@ -971,6 +1130,7 @@ def monthly_report(
     _validate_scope(db, actor=actor, school_id=school_id)
 
     year = _academic_year(db, academic_year_id)
+
     start_date, end_date = _period_bounds(
         year,
         month=month,
@@ -980,40 +1140,75 @@ def monthly_report(
     if end_date < start_date:
         return []
 
+    _validate_teacher_report_scope(
+        db,
+        actor=actor,
+        school_id=school_id,
+        academic_year_id=academic_year_id,
+        class_id=class_id,
+        start_date=start_date,
+        end_date=end_date,
+    )
+
     statement = (
         select(Enrollment, Student)
         .join(Student, Student.id == Enrollment.student_id)
         .where(
             Enrollment.school_id == school_id,
             Enrollment.academic_year_id == academic_year_id,
-            Enrollment.status == "ACTIVE",
+            Enrollment.enrollment_date <= end_date,
+            (
+                (Enrollment.exit_date.is_(None))
+                | (Enrollment.exit_date >= start_date)
+            ),
         )
     )
 
     if class_id:
-        statement = statement.where(Enrollment.class_id == class_id)
+        statement = statement.where(
+            Enrollment.class_id == class_id
+        )
 
     if student_id:
-        statement = statement.where(Enrollment.student_id == student_id)
+        statement = statement.where(
+            Enrollment.student_id == student_id
+        )
+
+    statement = statement.order_by(
+        Enrollment.student_id,
+        Enrollment.enrollment_date,
+    )
 
     rows = db.execute(statement).all()
 
-    result = []
+    grouped: dict[UUID, tuple[Student, list[Enrollment]]] = {}
 
     for enrollment, student in rows:
+        if enrollment.student_id not in grouped:
+            grouped[enrollment.student_id] = (
+                student,
+                [],
+            )
+
+        grouped[enrollment.student_id][1].append(enrollment)
+
+    result = []
+
+    for student, enrollments in grouped.values():
         report = _student_report(
             db,
-            enrollment=enrollment,
+            enrollments=enrollments,
             student=student,
             start_date=start_date,
             end_date=end_date,
         )
+
         report["month"] = month
         report["year"] = year_number
+
         result.append(report)
 
     return result
-
 
 def yearly_report(
     db: Session,
@@ -1028,35 +1223,72 @@ def yearly_report(
 
     year = _academic_year(db, academic_year_id)
 
+    _validate_teacher_report_scope(
+        db,
+        actor=actor,
+        school_id=school_id,
+        academic_year_id=academic_year_id,
+        class_id=class_id,
+        start_date=year.start_date,
+        end_date=year.end_date,
+    )
+
     statement = (
         select(Enrollment, Student)
         .join(Student, Student.id == Enrollment.student_id)
         .where(
             Enrollment.school_id == school_id,
             Enrollment.academic_year_id == academic_year_id,
-            Enrollment.status == "ACTIVE",
+            Enrollment.enrollment_date <= year.end_date,
+            (
+                (Enrollment.exit_date.is_(None))
+                | (Enrollment.exit_date >= year.start_date)
+            ),
         )
     )
 
     if class_id:
-        statement = statement.where(Enrollment.class_id == class_id)
+        statement = statement.where(
+            Enrollment.class_id == class_id
+        )
 
     if student_id:
-        statement = statement.where(Enrollment.student_id == student_id)
+        statement = statement.where(
+            Enrollment.student_id == student_id
+        )
+
+    statement = statement.order_by(
+        Enrollment.student_id,
+        Enrollment.enrollment_date,
+    )
 
     rows = db.execute(statement).all()
 
-    return [
-        _student_report(
-            db,
-            enrollment=enrollment,
-            student=student,
-            start_date=year.start_date,
-            end_date=year.end_date,
-        )
-        for enrollment, student in rows
-    ]
+    grouped: dict[UUID, tuple[Student, list[Enrollment]]] = {}
 
+    for enrollment, student in rows:
+        if enrollment.student_id not in grouped:
+            grouped[enrollment.student_id] = (
+                student,
+                [],
+            )
+
+        grouped[enrollment.student_id][1].append(enrollment)
+
+    result = []
+
+    for student, enrollments in grouped.values():
+        result.append(
+            _student_report(
+                db,
+                enrollments=enrollments,
+                student=student,
+                start_date=year.start_date,
+                end_date=year.end_date,
+            )
+        )
+
+    return result
 
 def create_calendar(
     db: Session,
@@ -1197,9 +1429,3 @@ def list_calendar(
     statement = statement.order_by(SchoolCalendar.calendar_date)
 
     return list(db.scalars(statement).all())
-
-
-
-
-
-

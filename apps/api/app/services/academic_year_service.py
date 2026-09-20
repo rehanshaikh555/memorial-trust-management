@@ -1,7 +1,7 @@
 from datetime import date
 from uuid import UUID
 
-from sqlalchemy import select, update
+from sqlalchemy import select, update as sa_update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -67,7 +67,7 @@ def _clear_current(
     trust_id: UUID,
 ) -> None:
     db.execute(
-        update(AcademicYear)
+        sa_update(AcademicYear)
         .where(
             AcademicYear.trust_id == trust_id,
             AcademicYear.is_current.is_(True),

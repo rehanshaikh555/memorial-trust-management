@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from app.api.router import router as system_router
 from app.api.v1.academic_year import router as academic_year_router
 from app.api.v1.class_model import router as class_router
+from app.api.v1.attendance import router as attendance_router
 from app.api.v1.auth import router as auth_router
 from app.api.v1.school import router as school_router
 from app.api.v1.student import router as student_router
@@ -36,3 +37,4 @@ app.include_router(student_router, prefix=settings.api_v1_prefix)
 app.include_router(teacher_router, prefix=settings.api_v1_prefix)
 app.include_router(academic_year_router, prefix=settings.api_v1_prefix)
 app.include_router(class_router, prefix=settings.api_v1_prefix)
+app.include_router(attendance_router, prefix=settings.api_v1_prefix)
