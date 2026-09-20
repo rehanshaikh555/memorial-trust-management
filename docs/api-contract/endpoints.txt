@@ -1,0 +1,853 @@
+GET     /api/v1/academic-years
+  SUMMARY: List Academic Years
+  OPERATION: list_academic_years_api_v1_academic_years_get
+  PARAM: trust_id [query] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"type": "array", "items": {"$ref": "#/components/schemas/AcademicYearResponse"}, "title": "Response List Academic Years Api V1 Academic Years Get"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/academic-years
+  SUMMARY: Create Academic Year
+  OPERATION: create_academic_year_api_v1_academic_years_post
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/AcademicYearCreate"}
+  RESPONSE: 201
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/AcademicYearResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/academic-years/{academic_year_id}
+  SUMMARY: Get Academic Year
+  OPERATION: get_academic_year_api_v1_academic_years__academic_year_id__get
+  PARAM: academic_year_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/AcademicYearResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+PATCH   /api/v1/academic-years/{academic_year_id}
+  SUMMARY: Update Academic Year
+  OPERATION: update_academic_year_api_v1_academic_years__academic_year_id__patch
+  PARAM: academic_year_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/AcademicYearUpdate"}
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/AcademicYearResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/academic-years/{academic_year_id}/deactivate
+  SUMMARY: Deactivate Academic Year
+  OPERATION: deactivate_academic_year_api_v1_academic_years__academic_year_id__deactivate_post
+  PARAM: academic_year_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/AcademicYearResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/academic-years/{academic_year_id}/schools
+  SUMMARY: List Academic Year Schools
+  OPERATION: list_academic_year_schools_api_v1_academic_years__academic_year_id__schools_get
+  PARAM: academic_year_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"type": "array", "items": {"$ref": "#/components/schemas/SchoolResponse"}, "title": "Response List Academic Year Schools Api V1 Academic Years  Academic Year Id  Schools Get"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/academic-years/{academic_year_id}/schools
+  SUMMARY: Attach School To Academic Year
+  OPERATION: attach_school_to_academic_year_api_v1_academic_years__academic_year_id__schools_post
+  PARAM: academic_year_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/SchoolAcademicYearCreate"}
+  RESPONSE: 201
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/SchoolAcademicYearResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+DELETE  /api/v1/academic-years/{academic_year_id}/schools/{school_id}
+  SUMMARY: Detach School From Academic Year
+  OPERATION: detach_school_from_academic_year_api_v1_academic_years__academic_year_id__schools__school_id__delete
+  PARAM: academic_year_id [path] required=True
+  PARAM: school_id [path] required=True
+  RESPONSE: 204
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/academic-years/{academic_year_id}/set-current
+  SUMMARY: Set Current Academic Year
+  OPERATION: set_current_academic_year_api_v1_academic_years__academic_year_id__set_current_post
+  PARAM: academic_year_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/AcademicYearResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/activities
+  SUMMARY: Listing
+  OPERATION: listing_api_v1_activities_get
+  PARAM: school_id [query] required=False
+  PARAM: academic_year_id [query] required=False
+  PARAM: status [query] required=False
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"type": "array", "items": {"$ref": "#/components/schemas/ActivityResponse"}, "title": "Response Listing Api V1 Activities Get"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/activities
+  SUMMARY: Create
+  OPERATION: create_api_v1_activities_post
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/ActivityCreate"}
+  RESPONSE: 201
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/ActivityResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/activities/{activity_id}
+  SUMMARY: Get One
+  OPERATION: get_one_api_v1_activities__activity_id__get
+  PARAM: activity_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/ActivityResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+PATCH   /api/v1/activities/{activity_id}
+  SUMMARY: Update
+  OPERATION: update_api_v1_activities__activity_id__patch
+  PARAM: activity_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/ActivityUpdate"}
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/ActivityResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/activities/{activity_id}/approve
+  SUMMARY: Approve
+  OPERATION: approve_api_v1_activities__activity_id__approve_post
+  PARAM: activity_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/ActivityResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/activities/{activity_id}/photos
+  SUMMARY: Photos
+  OPERATION: photos_api_v1_activities__activity_id__photos_get
+  PARAM: activity_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"type": "array", "items": {"$ref": "#/components/schemas/ActivityPhotoResponse"}, "title": "Response Photos Api V1 Activities  Activity Id  Photos Get"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/activities/{activity_id}/photos
+  SUMMARY: Add Photo
+  OPERATION: add_photo_api_v1_activities__activity_id__photos_post
+  PARAM: activity_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/ActivityPhotoCreate"}
+  RESPONSE: 201
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/ActivityPhotoResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+DELETE  /api/v1/activities/{activity_id}/photos/{photo_id}
+  SUMMARY: Delete Photo
+  OPERATION: delete_photo_api_v1_activities__activity_id__photos__photo_id__delete
+  PARAM: activity_id [path] required=True
+  PARAM: photo_id [path] required=True
+  RESPONSE: 204
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/activities/{activity_id}/publish
+  SUMMARY: Publish
+  OPERATION: publish_api_v1_activities__activity_id__publish_post
+  PARAM: activity_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/ActivityResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/activities/{activity_id}/reject
+  SUMMARY: Reject
+  OPERATION: reject_api_v1_activities__activity_id__reject_post
+  PARAM: activity_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/ActivityReject"}
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/ActivityResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/activities/{activity_id}/submit
+  SUMMARY: Submit
+  OPERATION: submit_api_v1_activities__activity_id__submit_post
+  PARAM: activity_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/ActivityResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/attendance
+  SUMMARY: List Attendance
+  OPERATION: list_attendance_api_v1_attendance_get
+  PARAM: school_id [query] required=True
+  PARAM: academic_year_id [query] required=False
+  PARAM: class_id [query] required=False
+  PARAM: student_id [query] required=False
+  PARAM: start_date [query] required=False
+  PARAM: end_date [query] required=False
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"type": "array", "items": {"$ref": "#/components/schemas/AttendanceItem"}, "title": "Response List Attendance Api V1 Attendance Get"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/attendance/bulk
+  SUMMARY: Bulk Attendance
+  OPERATION: bulk_attendance_api_v1_attendance_bulk_post
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/BulkAttendanceRequest"}
+  RESPONSE: 201
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/AttendanceBulkResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/attendance/calendar
+  SUMMARY: List Calendar
+  OPERATION: list_calendar_api_v1_attendance_calendar_get
+  PARAM: school_id [query] required=True
+  PARAM: academic_year_id [query] required=True
+  PARAM: start_date [query] required=False
+  PARAM: end_date [query] required=False
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"type": "array", "items": {"$ref": "#/components/schemas/CalendarResponse"}, "title": "Response List Calendar Api V1 Attendance Calendar Get"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/attendance/calendar
+  SUMMARY: Create Calendar
+  OPERATION: create_calendar_api_v1_attendance_calendar_post
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/CalendarCreate"}
+  RESPONSE: 201
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/CalendarResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+PATCH   /api/v1/attendance/calendar/{calendar_id}
+  SUMMARY: Update Calendar
+  OPERATION: update_calendar_api_v1_attendance_calendar__calendar_id__patch
+  PARAM: calendar_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/CalendarUpdate"}
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/CalendarResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/attendance/corrections
+  SUMMARY: List Corrections
+  OPERATION: list_corrections_api_v1_attendance_corrections_get
+  PARAM: school_id [query] required=True
+  PARAM: status [query] required=False
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"type": "array", "items": {"$ref": "#/components/schemas/AttendanceCorrectionResponse"}, "title": "Response List Corrections Api V1 Attendance Corrections Get"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/attendance/corrections
+  SUMMARY: Request Correction
+  OPERATION: request_correction_api_v1_attendance_corrections_post
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/AttendanceCorrectionCreate"}
+  RESPONSE: 201
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/AttendanceCorrectionResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/attendance/corrections/{correction_id}/approve
+  SUMMARY: Approve Correction
+  OPERATION: approve_correction_api_v1_attendance_corrections__correction_id__approve_post
+  PARAM: correction_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/AttendanceCorrectionReview"}
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/AttendanceCorrectionResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/attendance/corrections/{correction_id}/reject
+  SUMMARY: Reject Correction
+  OPERATION: reject_correction_api_v1_attendance_corrections__correction_id__reject_post
+  PARAM: correction_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/AttendanceCorrectionReview"}
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/AttendanceCorrectionResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/attendance/reports/monthly
+  SUMMARY: Monthly Report
+  OPERATION: monthly_report_api_v1_attendance_reports_monthly_get
+  PARAM: school_id [query] required=True
+  PARAM: academic_year_id [query] required=True
+  PARAM: month [query] required=True
+  PARAM: year [query] required=True
+  PARAM: class_id [query] required=False
+  PARAM: student_id [query] required=False
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"type": "array", "items": {"$ref": "#/components/schemas/MonthlyAttendanceReport"}, "title": "Response Monthly Report Api V1 Attendance Reports Monthly Get"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/attendance/reports/yearly
+  SUMMARY: Yearly Report
+  OPERATION: yearly_report_api_v1_attendance_reports_yearly_get
+  PARAM: school_id [query] required=True
+  PARAM: academic_year_id [query] required=True
+  PARAM: class_id [query] required=False
+  PARAM: student_id [query] required=False
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"type": "array", "items": {"$ref": "#/components/schemas/YearlyAttendanceReport"}, "title": "Response Yearly Report Api V1 Attendance Reports Yearly Get"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/attendance/sheet
+  SUMMARY: Get Sheet
+  OPERATION: get_sheet_api_v1_attendance_sheet_get
+  PARAM: school_id [query] required=True
+  PARAM: academic_year_id [query] required=True
+  PARAM: class_id [query] required=True
+  PARAM: attendance_date [query] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/AttendanceSheetResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/auth/login
+  SUMMARY: Login
+  OPERATION: login_api_v1_auth_login_post
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/LoginRequest"}
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/AuthResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/auth/logout
+  SUMMARY: Logout
+  OPERATION: logout_api_v1_auth_logout_post
+  RESPONSE: 204
+
+GET     /api/v1/auth/me
+  SUMMARY: Get Me
+  OPERATION: get_me_api_v1_auth_me_get
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/UserResponse"}
+
+POST    /api/v1/auth/refresh
+  SUMMARY: Refresh Token
+  OPERATION: refresh_token_api_v1_auth_refresh_post
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/RefreshRequest"}
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/TokenResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/classes
+  SUMMARY: List Classes
+  OPERATION: list_classes_api_v1_classes_get
+  PARAM: school_id [query] required=False
+  PARAM: academic_year_id [query] required=False
+  PARAM: include_inactive [query] required=False
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"type": "array", "items": {"$ref": "#/components/schemas/ClassResponse"}, "title": "Response List Classes Api V1 Classes Get"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/classes
+  SUMMARY: Create Class
+  OPERATION: create_class_api_v1_classes_post
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/ClassCreate"}
+  RESPONSE: 201
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/ClassResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/classes/{class_id}
+  SUMMARY: Get Class
+  OPERATION: get_class_api_v1_classes__class_id__get
+  PARAM: class_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/ClassResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+PATCH   /api/v1/classes/{class_id}
+  SUMMARY: Update Class
+  OPERATION: update_class_api_v1_classes__class_id__patch
+  PARAM: class_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/ClassUpdate"}
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/ClassResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/classes/{class_id}/deactivate
+  SUMMARY: Deactivate Class
+  OPERATION: deactivate_class_api_v1_classes__class_id__deactivate_post
+  PARAM: class_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/ClassResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/health
+  SUMMARY: Health Check
+  OPERATION: health_check_api_v1_health_get
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"additionalProperties": {"type": "string"}, "type": "object", "title": "Response Health Check Api V1 Health Get"}
+
+GET     /api/v1/notifications
+  SUMMARY: List Notifications
+  OPERATION: list_notifications_api_v1_notifications_get
+  PARAM: unread_only [query] required=False
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"type": "array", "items": {"$ref": "#/components/schemas/NotificationResponse"}, "title": "Response List Notifications Api V1 Notifications Get"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/notifications/read-all
+  SUMMARY: Mark All Notifications Read
+  OPERATION: mark_all_notifications_read_api_v1_notifications_read_all_post
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/NotificationUnreadCount"}
+
+GET     /api/v1/notifications/unread-count
+  SUMMARY: Get Unread Count
+  OPERATION: get_unread_count_api_v1_notifications_unread_count_get
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/NotificationUnreadCount"}
+
+POST    /api/v1/notifications/{notification_id}/read
+  SUMMARY: Mark One Read
+  OPERATION: mark_one_read_api_v1_notifications__notification_id__read_post
+  PARAM: notification_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/NotificationResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/schools
+  SUMMARY: List Schools
+  OPERATION: list_schools_api_v1_schools_get
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"items": {"$ref": "#/components/schemas/SchoolResponse"}, "type": "array", "title": "Response List Schools Api V1 Schools Get"}
+
+POST    /api/v1/schools
+  SUMMARY: Create School
+  OPERATION: create_school_api_v1_schools_post
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/SchoolCreate"}
+  RESPONSE: 201
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/SchoolResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/schools/{school_id}
+  SUMMARY: Get School
+  OPERATION: get_school_api_v1_schools__school_id__get
+  PARAM: school_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/SchoolResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+PATCH   /api/v1/schools/{school_id}
+  SUMMARY: Update School
+  OPERATION: update_school_api_v1_schools__school_id__patch
+  PARAM: school_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/SchoolUpdate"}
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/SchoolResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/schools/{school_id}/deactivate
+  SUMMARY: Deactivate School
+  OPERATION: deactivate_school_api_v1_schools__school_id__deactivate_post
+  PARAM: school_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/SchoolResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/students
+  SUMMARY: List Students
+  OPERATION: list_students_api_v1_students_get
+  PARAM: school_id [query] required=False
+  PARAM: academic_year_id [query] required=False
+  PARAM: class_id [query] required=False
+  PARAM: status [query] required=False
+  PARAM: include_inactive [query] required=False
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"type": "array", "items": {"$ref": "#/components/schemas/StudentListResponse"}, "title": "Response List Students Api V1 Students Get"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/students
+  SUMMARY: Create Student
+  OPERATION: create_student_api_v1_students_post
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/StudentCreate"}
+  RESPONSE: 201
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/StudentResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/students/documents/{document_id}/reject
+  SUMMARY: Reject Document
+  OPERATION: reject_document_api_v1_students_documents__document_id__reject_post
+  PARAM: document_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/DocumentRejection"}
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/StudentDocumentResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/students/documents/{document_id}/verify
+  SUMMARY: Verify Document
+  OPERATION: verify_document_api_v1_students_documents__document_id__verify_post
+  PARAM: document_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/DocumentDecision"}
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/StudentDocumentResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/students/{student_id}
+  SUMMARY: Get Student
+  OPERATION: get_student_api_v1_students__student_id__get
+  PARAM: student_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/StudentDetailResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+PATCH   /api/v1/students/{student_id}
+  SUMMARY: Update Student
+  OPERATION: update_student_api_v1_students__student_id__patch
+  PARAM: student_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/StudentUpdate"}
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/StudentResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/students/{student_id}/approve
+  SUMMARY: Approve Student
+  OPERATION: approve_student_api_v1_students__student_id__approve_post
+  PARAM: student_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/StudentResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/students/{student_id}/documents
+  SUMMARY: List Documents
+  OPERATION: list_documents_api_v1_students__student_id__documents_get
+  PARAM: student_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"type": "array", "items": {"$ref": "#/components/schemas/StudentDocumentResponse"}, "title": "Response List Documents Api V1 Students  Student Id  Documents Get"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/students/{student_id}/documents
+  SUMMARY: Add Document
+  OPERATION: add_document_api_v1_students__student_id__documents_post
+  PARAM: student_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/StudentDocumentCreate"}
+  RESPONSE: 201
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/StudentDocumentResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/students/{student_id}/exit
+  SUMMARY: Exit Student
+  OPERATION: exit_student_api_v1_students__student_id__exit_post
+  PARAM: student_id [path] required=True
+  PARAM: exit_date [query] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/StudentResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/students/{student_id}/graduate
+  SUMMARY: Graduate Student
+  OPERATION: graduate_student_api_v1_students__student_id__graduate_post
+  PARAM: student_id [path] required=True
+  PARAM: exit_date [query] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/StudentResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/students/{student_id}/guardians
+  SUMMARY: List Guardians
+  OPERATION: list_guardians_api_v1_students__student_id__guardians_get
+  PARAM: student_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"type": "array", "items": {"$ref": "#/components/schemas/GuardianResponse"}, "title": "Response List Guardians Api V1 Students  Student Id  Guardians Get"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/students/{student_id}/guardians
+  SUMMARY: Add Guardian
+  OPERATION: add_guardian_api_v1_students__student_id__guardians_post
+  PARAM: student_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/GuardianCreate"}
+  RESPONSE: 201
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/GuardianResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+DELETE  /api/v1/students/{student_id}/guardians/{guardian_id}
+  SUMMARY: Delete Guardian
+  OPERATION: delete_guardian_api_v1_students__student_id__guardians__guardian_id__delete
+  PARAM: student_id [path] required=True
+  PARAM: guardian_id [path] required=True
+  RESPONSE: 204
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+PATCH   /api/v1/students/{student_id}/guardians/{guardian_id}
+  SUMMARY: Update Guardian
+  OPERATION: update_guardian_api_v1_students__student_id__guardians__guardian_id__patch
+  PARAM: student_id [path] required=True
+  PARAM: guardian_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/GuardianUpdate"}
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/GuardianResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/students/{student_id}/ready-for-approval
+  SUMMARY: Ready Student
+  OPERATION: ready_student_api_v1_students__student_id__ready_for_approval_post
+  PARAM: student_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/StudentResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/students/{student_id}/submit
+  SUMMARY: Submit Student
+  OPERATION: submit_student_api_v1_students__student_id__submit_post
+  PARAM: student_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/StudentResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/students/{student_id}/transfer
+  SUMMARY: Transfer Student
+  OPERATION: transfer_student_api_v1_students__student_id__transfer_post
+  PARAM: student_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/StudentTransfer"}
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/StudentResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/teachers
+  SUMMARY: List Teachers
+  OPERATION: list_teachers_api_v1_teachers_get
+  PARAM: school_id [query] required=False
+  PARAM: include_inactive [query] required=False
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"type": "array", "items": {"$ref": "#/components/schemas/TeacherResponse"}, "title": "Response List Teachers Api V1 Teachers Get"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/teachers
+  SUMMARY: Create Teacher
+  OPERATION: create_teacher_api_v1_teachers_post
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/TeacherCreate"}
+  RESPONSE: 201
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/TeacherResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/teachers/assignments
+  SUMMARY: List Assignments
+  OPERATION: list_assignments_api_v1_teachers_assignments_get
+  PARAM: teacher_id [query] required=False
+  PARAM: school_id [query] required=False
+  PARAM: academic_year_id [query] required=False
+  PARAM: include_inactive [query] required=False
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"type": "array", "items": {"$ref": "#/components/schemas/TeacherAssignmentResponse"}, "title": "Response List Assignments Api V1 Teachers Assignments Get"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/teachers/assignments
+  SUMMARY: Create Assignment
+  OPERATION: create_assignment_api_v1_teachers_assignments_post
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/TeacherAssignmentCreate"}
+  RESPONSE: 201
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/TeacherAssignmentResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+PATCH   /api/v1/teachers/assignments/{assignment_id}
+  SUMMARY: Update Assignment
+  OPERATION: update_assignment_api_v1_teachers_assignments__assignment_id__patch
+  PARAM: assignment_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/TeacherAssignmentUpdate"}
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/TeacherAssignmentResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/teachers/assignments/{assignment_id}/deactivate
+  SUMMARY: Deactivate Assignment
+  OPERATION: deactivate_assignment_api_v1_teachers_assignments__assignment_id__deactivate_post
+  PARAM: assignment_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/TeacherAssignmentResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/teachers/attendance
+  SUMMARY: Get Teacher Attendance
+  OPERATION: get_teacher_attendance_api_v1_teachers_attendance_get
+  PARAM: teacher_id [query] required=False
+  PARAM: school_id [query] required=False
+  PARAM: start_date [query] required=False
+  PARAM: end_date [query] required=False
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"type": "array", "items": {"$ref": "#/components/schemas/TeacherAttendanceResponse"}, "title": "Response Get Teacher Attendance Api V1 Teachers Attendance Get"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/teachers/attendance
+  SUMMARY: Mark Teacher Attendance
+  OPERATION: mark_teacher_attendance_api_v1_teachers_attendance_post
+  PARAM: school_id [query] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/TeacherAttendanceCreate"}
+  RESPONSE: 201
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/TeacherAttendanceResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/teachers/{teacher_id}
+  SUMMARY: Get Teacher
+  OPERATION: get_teacher_api_v1_teachers__teacher_id__get
+  PARAM: teacher_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/TeacherResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+PATCH   /api/v1/teachers/{teacher_id}
+  SUMMARY: Update Teacher
+  OPERATION: update_teacher_api_v1_teachers__teacher_id__patch
+  PARAM: teacher_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/TeacherUpdate"}
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/TeacherResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/teachers/{teacher_id}/approve
+  SUMMARY: Approve Teacher
+  OPERATION: approve_teacher_api_v1_teachers__teacher_id__approve_post
+  PARAM: teacher_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/TeacherResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/teachers/{teacher_id}/deactivate
+  SUMMARY: Deactivate Teacher
+  OPERATION: deactivate_teacher_api_v1_teachers__teacher_id__deactivate_post
+  PARAM: teacher_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/TeacherResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/teachers/{teacher_id}/ready-for-approval
+  SUMMARY: Ready Teacher
+  OPERATION: ready_teacher_api_v1_teachers__teacher_id__ready_for_approval_post
+  PARAM: teacher_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/TeacherResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+POST    /api/v1/teachers/{teacher_id}/submit
+  SUMMARY: Submit Teacher
+  OPERATION: submit_teacher_api_v1_teachers__teacher_id__submit_post
+  PARAM: teacher_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/TeacherResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/trust
+  SUMMARY: List Trusts
+  OPERATION: list_trusts_api_v1_trust_get
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"items": {"$ref": "#/components/schemas/TrustResponse"}, "type": "array", "title": "Response List Trusts Api V1 Trust Get"}
+
+POST    /api/v1/trust
+  SUMMARY: Create Trust
+  OPERATION: create_trust_api_v1_trust_post
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/TrustCreate"}
+  RESPONSE: 201
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/TrustResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+GET     /api/v1/trust/{trust_id}
+  SUMMARY: Get Trust
+  OPERATION: get_trust_api_v1_trust__trust_id__get
+  PARAM: trust_id [path] required=True
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/TrustResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}
+
+PATCH   /api/v1/trust/{trust_id}
+  SUMMARY: Update Trust
+  OPERATION: update_trust_api_v1_trust__trust_id__patch
+  PARAM: trust_id [path] required=True
+  BODY: application/json
+  BODY_SCHEMA: {"$ref": "#/components/schemas/TrustUpdate"}
+  RESPONSE: 200
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/TrustResponse"}
+  RESPONSE: 422
+  RESPONSE_SCHEMA: application/json {"$ref": "#/components/schemas/HTTPValidationError"}

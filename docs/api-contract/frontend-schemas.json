@@ -1,0 +1,3424 @@
+{
+  "AcademicYearCreate": {
+    "properties": {
+      "trust_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Trust Id"
+      },
+      "name": {
+        "type": "string",
+        "maxLength": 20,
+        "minLength": 4,
+        "title": "Name"
+      },
+      "start_date": {
+        "type": "string",
+        "format": "date",
+        "title": "Start Date"
+      },
+      "end_date": {
+        "type": "string",
+        "format": "date",
+        "title": "End Date"
+      },
+      "is_current": {
+        "type": "boolean",
+        "title": "Is Current",
+        "default": false
+      }
+    },
+    "type": "object",
+    "required": [
+      "trust_id",
+      "name",
+      "start_date",
+      "end_date"
+    ],
+    "title": "AcademicYearCreate"
+  },
+  "AcademicYearResponse": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Id"
+      },
+      "trust_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Trust Id"
+      },
+      "name": {
+        "type": "string",
+        "title": "Name"
+      },
+      "start_date": {
+        "type": "string",
+        "format": "date",
+        "title": "Start Date"
+      },
+      "end_date": {
+        "type": "string",
+        "format": "date",
+        "title": "End Date"
+      },
+      "is_current": {
+        "type": "boolean",
+        "title": "Is Current"
+      },
+      "is_active": {
+        "type": "boolean",
+        "title": "Is Active"
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "trust_id",
+      "name",
+      "start_date",
+      "end_date",
+      "is_current",
+      "is_active"
+    ],
+    "title": "AcademicYearResponse"
+  },
+  "AcademicYearUpdate": {
+    "properties": {
+      "name": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 4
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Name"
+      },
+      "start_date": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Start Date"
+      },
+      "end_date": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "End Date"
+      }
+    },
+    "type": "object",
+    "title": "AcademicYearUpdate"
+  },
+  "ActivityCreate": {
+    "properties": {
+      "school_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "School Id"
+      },
+      "academic_year_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Academic Year Id"
+      },
+      "title": {
+        "type": "string",
+        "maxLength": 200,
+        "minLength": 1,
+        "title": "Title"
+      },
+      "description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Description"
+      },
+      "activity_date": {
+        "type": "string",
+        "format": "date",
+        "title": "Activity Date"
+      },
+      "activity_type": {
+        "type": "string",
+        "maxLength": 50,
+        "minLength": 1,
+        "title": "Activity Type"
+      },
+      "visibility": {
+        "type": "string",
+        "maxLength": 20,
+        "minLength": 1,
+        "title": "Visibility",
+        "default": "INTERNAL"
+      }
+    },
+    "type": "object",
+    "required": [
+      "school_id",
+      "academic_year_id",
+      "title",
+      "activity_date",
+      "activity_type"
+    ],
+    "title": "ActivityCreate"
+  },
+  "ActivityPhotoCreate": {
+    "properties": {
+      "file_name": {
+        "type": "string",
+        "maxLength": 255,
+        "minLength": 1,
+        "title": "File Name"
+      },
+      "storage_path": {
+        "type": "string",
+        "maxLength": 500,
+        "minLength": 1,
+        "title": "Storage Path"
+      },
+      "mime_type": {
+        "type": "string",
+        "maxLength": 100,
+        "minLength": 1,
+        "title": "Mime Type"
+      },
+      "file_size": {
+        "type": "integer",
+        "exclusiveMinimum": 0.0,
+        "title": "File Size"
+      },
+      "caption": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 500
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Caption"
+      },
+      "display_order": {
+        "type": "integer",
+        "minimum": 0.0,
+        "title": "Display Order",
+        "default": 0
+      }
+    },
+    "type": "object",
+    "required": [
+      "file_name",
+      "storage_path",
+      "mime_type",
+      "file_size"
+    ],
+    "title": "ActivityPhotoCreate"
+  },
+  "ActivityPhotoResponse": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Id"
+      },
+      "activity_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Activity Id"
+      },
+      "file_name": {
+        "type": "string",
+        "title": "File Name"
+      },
+      "storage_path": {
+        "type": "string",
+        "title": "Storage Path"
+      },
+      "mime_type": {
+        "type": "string",
+        "title": "Mime Type"
+      },
+      "file_size": {
+        "type": "integer",
+        "title": "File Size"
+      },
+      "caption": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Caption"
+      },
+      "display_order": {
+        "type": "integer",
+        "title": "Display Order"
+      },
+      "uploaded_by": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Uploaded By"
+      },
+      "created_at": {
+        "type": "string",
+        "format": "date-time",
+        "title": "Created At"
+      },
+      "updated_at": {
+        "type": "string",
+        "format": "date-time",
+        "title": "Updated At"
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "activity_id",
+      "file_name",
+      "storage_path",
+      "mime_type",
+      "file_size",
+      "caption",
+      "display_order",
+      "uploaded_by",
+      "created_at",
+      "updated_at"
+    ],
+    "title": "ActivityPhotoResponse"
+  },
+  "ActivityReject": {
+    "properties": {
+      "reason": {
+        "type": "string",
+        "maxLength": 500,
+        "minLength": 3,
+        "title": "Reason"
+      }
+    },
+    "type": "object",
+    "required": [
+      "reason"
+    ],
+    "title": "ActivityReject"
+  },
+  "ActivityResponse": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Id"
+      },
+      "school_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "School Id"
+      },
+      "academic_year_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Academic Year Id"
+      },
+      "title": {
+        "type": "string",
+        "title": "Title"
+      },
+      "description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Description"
+      },
+      "activity_date": {
+        "type": "string",
+        "format": "date",
+        "title": "Activity Date"
+      },
+      "activity_type": {
+        "type": "string",
+        "title": "Activity Type"
+      },
+      "status": {
+        "type": "string",
+        "title": "Status"
+      },
+      "visibility": {
+        "type": "string",
+        "title": "Visibility"
+      },
+      "created_by": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Created By"
+      },
+      "reviewed_by": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Reviewed By"
+      },
+      "reviewed_at": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Reviewed At"
+      },
+      "rejection_reason": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Rejection Reason"
+      },
+      "published_at": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Published At"
+      },
+      "created_at": {
+        "type": "string",
+        "format": "date-time",
+        "title": "Created At"
+      },
+      "updated_at": {
+        "type": "string",
+        "format": "date-time",
+        "title": "Updated At"
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "school_id",
+      "academic_year_id",
+      "title",
+      "description",
+      "activity_date",
+      "activity_type",
+      "status",
+      "visibility",
+      "created_by",
+      "reviewed_by",
+      "reviewed_at",
+      "rejection_reason",
+      "published_at",
+      "created_at",
+      "updated_at"
+    ],
+    "title": "ActivityResponse"
+  },
+  "ActivityUpdate": {
+    "properties": {
+      "title": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Title"
+      },
+      "description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Description"
+      },
+      "activity_date": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Activity Date"
+      },
+      "activity_type": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Activity Type"
+      },
+      "visibility": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 20,
+            "minLength": 1
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Visibility"
+      }
+    },
+    "type": "object",
+    "title": "ActivityUpdate"
+  },
+  "AttendanceBulkResponse": {
+    "properties": {
+      "attendance_date": {
+        "type": "string",
+        "format": "date",
+        "title": "Attendance Date"
+      },
+      "count": {
+        "type": "integer",
+        "title": "Count"
+      },
+      "items": {
+        "items": {
+          "$ref": "#/components/schemas/AttendanceItem"
+        },
+        "type": "array",
+        "title": "Items"
+      }
+    },
+    "type": "object",
+    "required": [
+      "attendance_date",
+      "count",
+      "items"
+    ],
+    "title": "AttendanceBulkResponse"
+  },
+  "AttendanceCorrectionCreate": {
+    "properties": {
+      "attendance_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Attendance Id"
+      },
+      "requested_status": {
+        "type": "string",
+        "enum": [
+          "PRESENT",
+          "ABSENT",
+          "LATE",
+          "EXCUSED"
+        ],
+        "title": "Requested Status"
+      },
+      "requested_remarks": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 500
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Requested Remarks"
+      },
+      "reason": {
+        "type": "string",
+        "maxLength": 2000,
+        "minLength": 3,
+        "title": "Reason"
+      }
+    },
+    "type": "object",
+    "required": [
+      "attendance_id",
+      "requested_status",
+      "reason"
+    ],
+    "title": "AttendanceCorrectionCreate"
+  },
+  "AttendanceCorrectionResponse": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Id"
+      },
+      "attendance_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Attendance Id"
+      },
+      "school_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "School Id"
+      },
+      "attendance_date": {
+        "type": "string",
+        "format": "date",
+        "title": "Attendance Date"
+      },
+      "old_status": {
+        "type": "string",
+        "title": "Old Status"
+      },
+      "old_remarks": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Old Remarks"
+      },
+      "requested_status": {
+        "type": "string",
+        "title": "Requested Status"
+      },
+      "requested_remarks": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Requested Remarks"
+      },
+      "reason": {
+        "type": "string",
+        "title": "Reason"
+      },
+      "status": {
+        "type": "string",
+        "title": "Status"
+      },
+      "requested_by": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Requested By"
+      },
+      "reviewed_by": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Reviewed By"
+      },
+      "reviewed_at": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Reviewed At"
+      },
+      "review_remarks": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Review Remarks"
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "attendance_id",
+      "school_id",
+      "attendance_date",
+      "old_status",
+      "old_remarks",
+      "requested_status",
+      "requested_remarks",
+      "reason",
+      "status",
+      "requested_by",
+      "reviewed_by",
+      "reviewed_at",
+      "review_remarks"
+    ],
+    "title": "AttendanceCorrectionResponse"
+  },
+  "AttendanceCorrectionReview": {
+    "properties": {
+      "remarks": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 2000
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Remarks"
+      }
+    },
+    "type": "object",
+    "title": "AttendanceCorrectionReview"
+  },
+  "AttendanceEntry": {
+    "properties": {
+      "enrollment_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Enrollment Id"
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "PRESENT",
+          "ABSENT",
+          "LATE",
+          "EXCUSED"
+        ],
+        "title": "Status"
+      },
+      "remarks": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 500
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Remarks"
+      }
+    },
+    "type": "object",
+    "required": [
+      "enrollment_id",
+      "status"
+    ],
+    "title": "AttendanceEntry"
+  },
+  "AttendanceItem": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Id"
+      },
+      "enrollment_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Enrollment Id"
+      },
+      "student_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Student Id"
+      },
+      "student_code": {
+        "type": "string",
+        "title": "Student Code"
+      },
+      "student_name": {
+        "type": "string",
+        "title": "Student Name"
+      },
+      "class_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Class Id"
+      },
+      "academic_year_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Academic Year Id"
+      },
+      "school_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "School Id"
+      },
+      "attendance_date": {
+        "type": "string",
+        "format": "date",
+        "title": "Attendance Date"
+      },
+      "status": {
+        "type": "string",
+        "title": "Status"
+      },
+      "remarks": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Remarks"
+      },
+      "marked_by": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Marked By"
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "enrollment_id",
+      "student_id",
+      "student_code",
+      "student_name",
+      "class_id",
+      "academic_year_id",
+      "school_id",
+      "attendance_date",
+      "status",
+      "remarks",
+      "marked_by"
+    ],
+    "title": "AttendanceItem"
+  },
+  "AttendanceSheetItem": {
+    "properties": {
+      "enrollment_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Enrollment Id"
+      },
+      "student_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Student Id"
+      },
+      "student_code": {
+        "type": "string",
+        "title": "Student Code"
+      },
+      "student_name": {
+        "type": "string",
+        "title": "Student Name"
+      },
+      "status": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Status"
+      },
+      "remarks": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Remarks"
+      }
+    },
+    "type": "object",
+    "required": [
+      "enrollment_id",
+      "student_id",
+      "student_code",
+      "student_name",
+      "status",
+      "remarks"
+    ],
+    "title": "AttendanceSheetItem"
+  },
+  "AttendanceSheetResponse": {
+    "properties": {
+      "school_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "School Id"
+      },
+      "academic_year_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Academic Year Id"
+      },
+      "class_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Class Id"
+      },
+      "attendance_date": {
+        "type": "string",
+        "format": "date",
+        "title": "Attendance Date"
+      },
+      "is_working_day": {
+        "type": "boolean",
+        "title": "Is Working Day"
+      },
+      "items": {
+        "items": {
+          "$ref": "#/components/schemas/AttendanceSheetItem"
+        },
+        "type": "array",
+        "title": "Items"
+      }
+    },
+    "type": "object",
+    "required": [
+      "school_id",
+      "academic_year_id",
+      "class_id",
+      "attendance_date",
+      "is_working_day",
+      "items"
+    ],
+    "title": "AttendanceSheetResponse"
+  },
+  "AuthResponse": {
+    "properties": {
+      "user": {
+        "$ref": "#/components/schemas/UserResponse"
+      },
+      "tokens": {
+        "$ref": "#/components/schemas/TokenResponse"
+      }
+    },
+    "type": "object",
+    "required": [
+      "user",
+      "tokens"
+    ],
+    "title": "AuthResponse"
+  },
+  "BulkAttendanceRequest": {
+    "properties": {
+      "school_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "School Id"
+      },
+      "academic_year_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Academic Year Id"
+      },
+      "class_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Class Id"
+      },
+      "attendance_date": {
+        "type": "string",
+        "format": "date",
+        "title": "Attendance Date"
+      },
+      "entries": {
+        "items": {
+          "$ref": "#/components/schemas/AttendanceEntry"
+        },
+        "type": "array",
+        "minItems": 1,
+        "title": "Entries"
+      }
+    },
+    "type": "object",
+    "required": [
+      "school_id",
+      "academic_year_id",
+      "class_id",
+      "attendance_date",
+      "entries"
+    ],
+    "title": "BulkAttendanceRequest"
+  },
+  "ClassCreate": {
+    "properties": {
+      "school_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "School Id"
+      },
+      "academic_year_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Academic Year Id"
+      },
+      "name": {
+        "type": "string",
+        "maxLength": 100,
+        "minLength": 1,
+        "title": "Name"
+      },
+      "grade_level": {
+        "type": "integer",
+        "maximum": 12.0,
+        "minimum": 1.0,
+        "title": "Grade Level"
+      },
+      "section": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 20
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Section"
+      }
+    },
+    "type": "object",
+    "required": [
+      "school_id",
+      "academic_year_id",
+      "name",
+      "grade_level"
+    ],
+    "title": "ClassCreate"
+  },
+  "ClassResponse": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Id"
+      },
+      "school_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "School Id"
+      },
+      "academic_year_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Academic Year Id"
+      },
+      "name": {
+        "type": "string",
+        "title": "Name"
+      },
+      "grade_level": {
+        "type": "integer",
+        "title": "Grade Level"
+      },
+      "section": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Section"
+      },
+      "is_active": {
+        "type": "boolean",
+        "title": "Is Active"
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "school_id",
+      "academic_year_id",
+      "name",
+      "grade_level",
+      "section",
+      "is_active"
+    ],
+    "title": "ClassResponse"
+  },
+  "ClassUpdate": {
+    "properties": {
+      "name": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Name"
+      },
+      "grade_level": {
+        "anyOf": [
+          {
+            "type": "integer",
+            "maximum": 12.0,
+            "minimum": 1.0
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Grade Level"
+      },
+      "section": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 20
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Section"
+      }
+    },
+    "type": "object",
+    "title": "ClassUpdate"
+  },
+  "DocumentDecision": {
+    "properties": {
+      "remarks": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 1000
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Remarks"
+      }
+    },
+    "type": "object",
+    "title": "DocumentDecision"
+  },
+  "DocumentRejection": {
+    "properties": {
+      "reason": {
+        "type": "string",
+        "maxLength": 1000,
+        "minLength": 1,
+        "title": "Reason"
+      }
+    },
+    "type": "object",
+    "required": [
+      "reason"
+    ],
+    "title": "DocumentRejection"
+  },
+  "GuardianCreate": {
+    "properties": {
+      "full_name": {
+        "type": "string",
+        "maxLength": 200,
+        "minLength": 1,
+        "title": "Full Name"
+      },
+      "relationship": {
+        "type": "string",
+        "maxLength": 50,
+        "minLength": 1,
+        "title": "Relationship"
+      },
+      "phone": {
+        "type": "string",
+        "maxLength": 30,
+        "minLength": 1,
+        "title": "Phone"
+      },
+      "email": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 320
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Email"
+      },
+      "address": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 500
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Address"
+      },
+      "is_primary": {
+        "type": "boolean",
+        "title": "Is Primary",
+        "default": false
+      }
+    },
+    "type": "object",
+    "required": [
+      "full_name",
+      "relationship",
+      "phone"
+    ],
+    "title": "GuardianCreate"
+  },
+  "GuardianResponse": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Id"
+      },
+      "full_name": {
+        "type": "string",
+        "title": "Full Name"
+      },
+      "relationship": {
+        "type": "string",
+        "title": "Relationship"
+      },
+      "phone": {
+        "type": "string",
+        "title": "Phone"
+      },
+      "email": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Email"
+      },
+      "address": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Address"
+      },
+      "is_primary": {
+        "type": "boolean",
+        "title": "Is Primary"
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "full_name",
+      "relationship",
+      "phone",
+      "email",
+      "address",
+      "is_primary"
+    ],
+    "title": "GuardianResponse"
+  },
+  "GuardianUpdate": {
+    "properties": {
+      "full_name": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Full Name"
+      },
+      "relationship": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Relationship"
+      },
+      "phone": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 30,
+            "minLength": 1
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Phone"
+      },
+      "email": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 320
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Email"
+      },
+      "address": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 500
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Address"
+      },
+      "is_primary": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Is Primary"
+      }
+    },
+    "type": "object",
+    "title": "GuardianUpdate"
+  },
+  "LoginRequest": {
+    "properties": {
+      "email": {
+        "type": "string",
+        "format": "email",
+        "title": "Email"
+      },
+      "password": {
+        "type": "string",
+        "maxLength": 128,
+        "minLength": 8,
+        "title": "Password"
+      }
+    },
+    "type": "object",
+    "required": [
+      "email",
+      "password"
+    ],
+    "title": "LoginRequest"
+  },
+  "MonthlyAttendanceReport": {
+    "properties": {
+      "student_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Student Id"
+      },
+      "student_code": {
+        "type": "string",
+        "title": "Student Code"
+      },
+      "student_name": {
+        "type": "string",
+        "title": "Student Name"
+      },
+      "school_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "School Id"
+      },
+      "academic_year_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Academic Year Id"
+      },
+      "month": {
+        "type": "integer",
+        "title": "Month"
+      },
+      "year": {
+        "type": "integer",
+        "title": "Year"
+      },
+      "working_days": {
+        "type": "integer",
+        "title": "Working Days"
+      },
+      "recorded_days": {
+        "type": "integer",
+        "title": "Recorded Days"
+      },
+      "present_days": {
+        "type": "integer",
+        "title": "Present Days"
+      },
+      "absent_days": {
+        "type": "integer",
+        "title": "Absent Days"
+      },
+      "late_days": {
+        "type": "integer",
+        "title": "Late Days"
+      },
+      "excused_days": {
+        "type": "integer",
+        "title": "Excused Days"
+      },
+      "attendance_percentage": {
+        "type": "number",
+        "title": "Attendance Percentage"
+      }
+    },
+    "type": "object",
+    "required": [
+      "student_id",
+      "student_code",
+      "student_name",
+      "school_id",
+      "academic_year_id",
+      "month",
+      "year",
+      "working_days",
+      "recorded_days",
+      "present_days",
+      "absent_days",
+      "late_days",
+      "excused_days",
+      "attendance_percentage"
+    ],
+    "title": "MonthlyAttendanceReport"
+  },
+  "NotificationResponse": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Id"
+      },
+      "recipient_user_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Recipient User Id"
+      },
+      "notification_type": {
+        "type": "string",
+        "title": "Notification Type"
+      },
+      "title": {
+        "type": "string",
+        "title": "Title"
+      },
+      "message": {
+        "type": "string",
+        "title": "Message"
+      },
+      "related_entity_type": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Related Entity Type"
+      },
+      "related_entity_id": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Related Entity Id"
+      },
+      "priority": {
+        "type": "string",
+        "title": "Priority"
+      },
+      "is_read": {
+        "type": "boolean",
+        "title": "Is Read"
+      },
+      "read_at": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Read At"
+      },
+      "created_at": {
+        "type": "string",
+        "format": "date-time",
+        "title": "Created At"
+      },
+      "updated_at": {
+        "type": "string",
+        "format": "date-time",
+        "title": "Updated At"
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "recipient_user_id",
+      "notification_type",
+      "title",
+      "message",
+      "related_entity_type",
+      "related_entity_id",
+      "priority",
+      "is_read",
+      "read_at",
+      "created_at",
+      "updated_at"
+    ],
+    "title": "NotificationResponse"
+  },
+  "NotificationUnreadCount": {
+    "properties": {
+      "unread_count": {
+        "type": "integer",
+        "title": "Unread Count"
+      }
+    },
+    "type": "object",
+    "required": [
+      "unread_count"
+    ],
+    "title": "NotificationUnreadCount"
+  },
+  "SchoolAcademicYearCreate": {
+    "properties": {
+      "school_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "School Id"
+      }
+    },
+    "type": "object",
+    "required": [
+      "school_id"
+    ],
+    "title": "SchoolAcademicYearCreate"
+  },
+  "SchoolAcademicYearResponse": {
+    "properties": {
+      "school_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "School Id"
+      },
+      "academic_year_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Academic Year Id"
+      }
+    },
+    "type": "object",
+    "required": [
+      "school_id",
+      "academic_year_id"
+    ],
+    "title": "SchoolAcademicYearResponse"
+  },
+  "SchoolCreate": {
+    "properties": {
+      "trust_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Trust Id"
+      },
+      "name": {
+        "type": "string",
+        "maxLength": 200,
+        "minLength": 2,
+        "title": "Name"
+      },
+      "code": {
+        "type": "string",
+        "maxLength": 50,
+        "minLength": 2,
+        "title": "Code"
+      },
+      "address": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 500
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Address"
+      }
+    },
+    "type": "object",
+    "required": [
+      "trust_id",
+      "name",
+      "code"
+    ],
+    "title": "SchoolCreate"
+  },
+  "SchoolResponse": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Id"
+      },
+      "trust_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Trust Id"
+      },
+      "name": {
+        "type": "string",
+        "title": "Name"
+      },
+      "code": {
+        "type": "string",
+        "title": "Code"
+      },
+      "address": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Address"
+      },
+      "is_active": {
+        "type": "boolean",
+        "title": "Is Active"
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "trust_id",
+      "name",
+      "code",
+      "address",
+      "is_active"
+    ],
+    "title": "SchoolResponse"
+  },
+  "SchoolUpdate": {
+    "properties": {
+      "name": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 2
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Name"
+      },
+      "address": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 500
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Address"
+      }
+    },
+    "type": "object",
+    "title": "SchoolUpdate"
+  },
+  "StudentCreate": {
+    "properties": {
+      "student_id": {
+        "type": "string",
+        "maxLength": 50,
+        "minLength": 1,
+        "title": "Student Id"
+      },
+      "first_name": {
+        "type": "string",
+        "maxLength": 100,
+        "minLength": 1,
+        "title": "First Name"
+      },
+      "middle_name": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 100
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Middle Name"
+      },
+      "last_name": {
+        "type": "string",
+        "maxLength": 100,
+        "minLength": 1,
+        "title": "Last Name"
+      },
+      "date_of_birth": {
+        "type": "string",
+        "format": "date",
+        "title": "Date Of Birth"
+      },
+      "gender": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 30
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Gender"
+      },
+      "phone": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 30
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Phone"
+      },
+      "email": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 320
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Email"
+      },
+      "address": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Address"
+      },
+      "school_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "School Id"
+      },
+      "academic_year_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Academic Year Id"
+      },
+      "class_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Class Id"
+      },
+      "enrollment_date": {
+        "type": "string",
+        "format": "date",
+        "title": "Enrollment Date"
+      },
+      "guardians": {
+        "items": {
+          "$ref": "#/components/schemas/GuardianCreate"
+        },
+        "type": "array",
+        "title": "Guardians"
+      }
+    },
+    "type": "object",
+    "required": [
+      "student_id",
+      "first_name",
+      "last_name",
+      "date_of_birth",
+      "school_id",
+      "academic_year_id",
+      "class_id",
+      "enrollment_date"
+    ],
+    "title": "StudentCreate"
+  },
+  "StudentDetailResponse": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Id"
+      },
+      "student_id": {
+        "type": "string",
+        "title": "Student Id"
+      },
+      "first_name": {
+        "type": "string",
+        "title": "First Name"
+      },
+      "middle_name": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Middle Name"
+      },
+      "last_name": {
+        "type": "string",
+        "title": "Last Name"
+      },
+      "date_of_birth": {
+        "type": "string",
+        "format": "date",
+        "title": "Date Of Birth"
+      },
+      "gender": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Gender"
+      },
+      "phone": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Phone"
+      },
+      "email": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Email"
+      },
+      "address": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Address"
+      },
+      "status": {
+        "type": "string",
+        "title": "Status"
+      },
+      "is_active": {
+        "type": "boolean",
+        "title": "Is Active"
+      },
+      "guardians": {
+        "items": {
+          "$ref": "#/components/schemas/GuardianResponse"
+        },
+        "type": "array",
+        "title": "Guardians"
+      },
+      "enrollment": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/EnrollmentResponse"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "student_id",
+      "first_name",
+      "middle_name",
+      "last_name",
+      "date_of_birth",
+      "gender",
+      "phone",
+      "email",
+      "address",
+      "status",
+      "is_active",
+      "guardians",
+      "enrollment"
+    ],
+    "title": "StudentDetailResponse"
+  },
+  "StudentDocumentCreate": {
+    "properties": {
+      "document_type": {
+        "type": "string",
+        "maxLength": 50,
+        "minLength": 1,
+        "title": "Document Type"
+      },
+      "file_name": {
+        "type": "string",
+        "maxLength": 255,
+        "minLength": 1,
+        "title": "File Name"
+      },
+      "storage_path": {
+        "type": "string",
+        "maxLength": 500,
+        "minLength": 1,
+        "title": "Storage Path"
+      },
+      "mime_type": {
+        "type": "string",
+        "maxLength": 100,
+        "minLength": 1,
+        "title": "Mime Type"
+      },
+      "file_size": {
+        "type": "integer",
+        "exclusiveMinimum": 0.0,
+        "title": "File Size"
+      },
+      "expiry_date": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Expiry Date"
+      }
+    },
+    "type": "object",
+    "required": [
+      "document_type",
+      "file_name",
+      "storage_path",
+      "mime_type",
+      "file_size"
+    ],
+    "title": "StudentDocumentCreate"
+  },
+  "StudentDocumentResponse": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Id"
+      },
+      "student_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Student Id"
+      },
+      "document_type": {
+        "type": "string",
+        "title": "Document Type"
+      },
+      "file_name": {
+        "type": "string",
+        "title": "File Name"
+      },
+      "storage_path": {
+        "type": "string",
+        "title": "Storage Path"
+      },
+      "mime_type": {
+        "type": "string",
+        "title": "Mime Type"
+      },
+      "file_size": {
+        "type": "integer",
+        "title": "File Size"
+      },
+      "status": {
+        "type": "string",
+        "title": "Status"
+      },
+      "rejection_reason": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Rejection Reason"
+      },
+      "expiry_date": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Expiry Date"
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "student_id",
+      "document_type",
+      "file_name",
+      "storage_path",
+      "mime_type",
+      "file_size",
+      "status",
+      "rejection_reason",
+      "expiry_date"
+    ],
+    "title": "StudentDocumentResponse"
+  },
+  "StudentListResponse": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Id"
+      },
+      "student_id": {
+        "type": "string",
+        "title": "Student Id"
+      },
+      "first_name": {
+        "type": "string",
+        "title": "First Name"
+      },
+      "middle_name": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Middle Name"
+      },
+      "last_name": {
+        "type": "string",
+        "title": "Last Name"
+      },
+      "date_of_birth": {
+        "type": "string",
+        "format": "date",
+        "title": "Date Of Birth"
+      },
+      "gender": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Gender"
+      },
+      "phone": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Phone"
+      },
+      "email": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Email"
+      },
+      "address": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Address"
+      },
+      "status": {
+        "type": "string",
+        "title": "Status"
+      },
+      "is_active": {
+        "type": "boolean",
+        "title": "Is Active"
+      },
+      "school_id": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "School Id"
+      },
+      "academic_year_id": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Academic Year Id"
+      },
+      "class_id": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Class Id"
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "student_id",
+      "first_name",
+      "middle_name",
+      "last_name",
+      "date_of_birth",
+      "gender",
+      "phone",
+      "email",
+      "address",
+      "status",
+      "is_active"
+    ],
+    "title": "StudentListResponse"
+  },
+  "StudentResponse": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Id"
+      },
+      "student_id": {
+        "type": "string",
+        "title": "Student Id"
+      },
+      "first_name": {
+        "type": "string",
+        "title": "First Name"
+      },
+      "middle_name": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Middle Name"
+      },
+      "last_name": {
+        "type": "string",
+        "title": "Last Name"
+      },
+      "date_of_birth": {
+        "type": "string",
+        "format": "date",
+        "title": "Date Of Birth"
+      },
+      "gender": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Gender"
+      },
+      "phone": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Phone"
+      },
+      "email": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Email"
+      },
+      "address": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Address"
+      },
+      "status": {
+        "type": "string",
+        "title": "Status"
+      },
+      "is_active": {
+        "type": "boolean",
+        "title": "Is Active"
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "student_id",
+      "first_name",
+      "middle_name",
+      "last_name",
+      "date_of_birth",
+      "gender",
+      "phone",
+      "email",
+      "address",
+      "status",
+      "is_active"
+    ],
+    "title": "StudentResponse"
+  },
+  "StudentTransfer": {
+    "properties": {
+      "school_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "School Id"
+      },
+      "academic_year_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Academic Year Id"
+      },
+      "class_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Class Id"
+      },
+      "enrollment_date": {
+        "type": "string",
+        "format": "date",
+        "title": "Enrollment Date"
+      }
+    },
+    "type": "object",
+    "required": [
+      "school_id",
+      "academic_year_id",
+      "class_id",
+      "enrollment_date"
+    ],
+    "title": "StudentTransfer"
+  },
+  "StudentUpdate": {
+    "properties": {
+      "first_name": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "First Name"
+      },
+      "middle_name": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 100
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Middle Name"
+      },
+      "last_name": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Last Name"
+      },
+      "date_of_birth": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Date Of Birth"
+      },
+      "gender": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 30
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Gender"
+      },
+      "phone": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 30
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Phone"
+      },
+      "email": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 320
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Email"
+      },
+      "address": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Address"
+      }
+    },
+    "type": "object",
+    "title": "StudentUpdate"
+  },
+  "TeacherAssignmentCreate": {
+    "properties": {
+      "teacher_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Teacher Id"
+      },
+      "school_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "School Id"
+      },
+      "academic_year_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Academic Year Id"
+      },
+      "class_id": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Class Id"
+      },
+      "subject": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 100
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Subject"
+      },
+      "start_date": {
+        "type": "string",
+        "format": "date",
+        "title": "Start Date"
+      },
+      "end_date": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "End Date"
+      }
+    },
+    "type": "object",
+    "required": [
+      "teacher_id",
+      "school_id",
+      "academic_year_id",
+      "start_date"
+    ],
+    "title": "TeacherAssignmentCreate"
+  },
+  "TeacherAssignmentResponse": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Id"
+      },
+      "teacher_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Teacher Id"
+      },
+      "school_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "School Id"
+      },
+      "academic_year_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Academic Year Id"
+      },
+      "class_id": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Class Id"
+      },
+      "subject": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Subject"
+      },
+      "start_date": {
+        "type": "string",
+        "format": "date",
+        "title": "Start Date"
+      },
+      "end_date": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "End Date"
+      },
+      "status": {
+        "type": "string",
+        "title": "Status"
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "teacher_id",
+      "school_id",
+      "academic_year_id",
+      "class_id",
+      "subject",
+      "start_date",
+      "end_date",
+      "status"
+    ],
+    "title": "TeacherAssignmentResponse"
+  },
+  "TeacherAssignmentUpdate": {
+    "properties": {
+      "class_id": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Class Id"
+      },
+      "subject": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 100
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Subject"
+      },
+      "start_date": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Start Date"
+      },
+      "end_date": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "End Date"
+      },
+      "status": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 30
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Status"
+      }
+    },
+    "type": "object",
+    "title": "TeacherAssignmentUpdate"
+  },
+  "TeacherAttendanceCreate": {
+    "properties": {
+      "teacher_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Teacher Id"
+      },
+      "attendance_date": {
+        "type": "string",
+        "format": "date",
+        "title": "Attendance Date"
+      },
+      "status": {
+        "type": "string",
+        "maxLength": 20,
+        "minLength": 1,
+        "title": "Status",
+        "default": "PRESENT"
+      },
+      "remarks": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 500
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Remarks"
+      }
+    },
+    "type": "object",
+    "required": [
+      "teacher_id",
+      "attendance_date"
+    ],
+    "title": "TeacherAttendanceCreate"
+  },
+  "TeacherAttendanceResponse": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Id"
+      },
+      "teacher_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Teacher Id"
+      },
+      "attendance_date": {
+        "type": "string",
+        "format": "date",
+        "title": "Attendance Date"
+      },
+      "status": {
+        "type": "string",
+        "title": "Status"
+      },
+      "marked_by": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Marked By"
+      },
+      "remarks": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Remarks"
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "teacher_id",
+      "attendance_date",
+      "status",
+      "marked_by",
+      "remarks"
+    ],
+    "title": "TeacherAttendanceResponse"
+  },
+  "TeacherCreate": {
+    "properties": {
+      "school_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "School Id"
+      },
+      "teacher_id": {
+        "type": "string",
+        "maxLength": 50,
+        "minLength": 1,
+        "title": "Teacher Id"
+      },
+      "first_name": {
+        "type": "string",
+        "maxLength": 100,
+        "minLength": 1,
+        "title": "First Name"
+      },
+      "middle_name": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 100
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Middle Name"
+      },
+      "last_name": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 100
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Last Name"
+      },
+      "date_of_birth": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Date Of Birth"
+      },
+      "gender": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 30
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Gender"
+      },
+      "phone": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 30
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Phone"
+      },
+      "email": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 320
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Email"
+      },
+      "address": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 500
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Address"
+      },
+      "qualification": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 255
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Qualification"
+      }
+    },
+    "type": "object",
+    "required": [
+      "school_id",
+      "teacher_id",
+      "first_name"
+    ],
+    "title": "TeacherCreate"
+  },
+  "TeacherResponse": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Id"
+      },
+      "user_id": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "User Id"
+      },
+      "teacher_id": {
+        "type": "string",
+        "title": "Teacher Id"
+      },
+      "first_name": {
+        "type": "string",
+        "title": "First Name"
+      },
+      "middle_name": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Middle Name"
+      },
+      "last_name": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Last Name"
+      },
+      "date_of_birth": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Date Of Birth"
+      },
+      "gender": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Gender"
+      },
+      "phone": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Phone"
+      },
+      "email": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Email"
+      },
+      "address": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Address"
+      },
+      "qualification": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Qualification"
+      },
+      "status": {
+        "type": "string",
+        "title": "Status"
+      },
+      "is_active": {
+        "type": "boolean",
+        "title": "Is Active"
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "user_id",
+      "teacher_id",
+      "first_name",
+      "middle_name",
+      "last_name",
+      "date_of_birth",
+      "gender",
+      "phone",
+      "email",
+      "address",
+      "qualification",
+      "status",
+      "is_active"
+    ],
+    "title": "TeacherResponse"
+  },
+  "TeacherUpdate": {
+    "properties": {
+      "first_name": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "First Name"
+      },
+      "middle_name": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 100
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Middle Name"
+      },
+      "last_name": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 100
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Last Name"
+      },
+      "date_of_birth": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Date Of Birth"
+      },
+      "gender": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 30
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Gender"
+      },
+      "phone": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 30
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Phone"
+      },
+      "email": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 320
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Email"
+      },
+      "address": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 500
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Address"
+      },
+      "qualification": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 255
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Qualification"
+      }
+    },
+    "type": "object",
+    "title": "TeacherUpdate"
+  },
+  "TrustCreate": {
+    "properties": {
+      "name": {
+        "type": "string",
+        "maxLength": 200,
+        "minLength": 2,
+        "title": "Name"
+      },
+      "code": {
+        "type": "string",
+        "maxLength": 50,
+        "minLength": 2,
+        "title": "Code"
+      },
+      "description": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 2000
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Description"
+      }
+    },
+    "type": "object",
+    "required": [
+      "name",
+      "code"
+    ],
+    "title": "TrustCreate"
+  },
+  "TrustResponse": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Id"
+      },
+      "name": {
+        "type": "string",
+        "title": "Name"
+      },
+      "code": {
+        "type": "string",
+        "title": "Code"
+      },
+      "description": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Description"
+      },
+      "is_active": {
+        "type": "boolean",
+        "title": "Is Active"
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "name",
+      "code",
+      "description",
+      "is_active"
+    ],
+    "title": "TrustResponse"
+  },
+  "TrustUpdate": {
+    "properties": {
+      "name": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 2
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Name"
+      },
+      "description": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 2000
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Description"
+      },
+      "is_active": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Is Active"
+      }
+    },
+    "type": "object",
+    "title": "TrustUpdate"
+  },
+  "UserResponse": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "title": "Id"
+      },
+      "email": {
+        "type": "string",
+        "format": "email",
+        "title": "Email"
+      },
+      "role": {
+        "type": "string",
+        "title": "Role"
+      },
+      "is_active": {
+        "type": "boolean",
+        "title": "Is Active"
+      },
+      "trust_id": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Trust Id"
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "email",
+      "role",
+      "is_active"
+    ],
+    "title": "UserResponse"
+  },
+  "YearlyAttendanceReport": {
+    "properties": {
+      "student_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Student Id"
+      },
+      "student_code": {
+        "type": "string",
+        "title": "Student Code"
+      },
+      "student_name": {
+        "type": "string",
+        "title": "Student Name"
+      },
+      "school_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "School Id"
+      },
+      "academic_year_id": {
+        "type": "string",
+        "format": "uuid",
+        "title": "Academic Year Id"
+      },
+      "working_days": {
+        "type": "integer",
+        "title": "Working Days"
+      },
+      "recorded_days": {
+        "type": "integer",
+        "title": "Recorded Days"
+      },
+      "present_days": {
+        "type": "integer",
+        "title": "Present Days"
+      },
+      "absent_days": {
+        "type": "integer",
+        "title": "Absent Days"
+      },
+      "late_days": {
+        "type": "integer",
+        "title": "Late Days"
+      },
+      "excused_days": {
+        "type": "integer",
+        "title": "Excused Days"
+      },
+      "attendance_percentage": {
+        "type": "number",
+        "title": "Attendance Percentage"
+      }
+    },
+    "type": "object",
+    "required": [
+      "student_id",
+      "student_code",
+      "student_name",
+      "school_id",
+      "academic_year_id",
+      "working_days",
+      "recorded_days",
+      "present_days",
+      "absent_days",
+      "late_days",
+      "excused_days",
+      "attendance_percentage"
+    ],
+    "title": "YearlyAttendanceReport"
+  }
+}
