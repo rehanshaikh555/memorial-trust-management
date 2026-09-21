@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -15,7 +15,7 @@ import {
   useSchool,
 } from "@/hooks/use-academic-structure";
 
-import { Button } from "@/components/ui/button";
+
 import {
   Card,
   CardContent,

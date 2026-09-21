@@ -1,4 +1,4 @@
-﻿export const API_BASE_URL =
+export const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ??
   "http://localhost:8000/api/v1";
 
@@ -84,20 +84,17 @@ export async function login(
   email: string,
   password: string,
 ) {
-  const form = new URLSearchParams();
-
-  form.set("username", email);
-  form.set("password", password);
-
   const response = await fetch(
     `${API_BASE_URL}/auth/login`,
     {
       method: "POST",
       headers: {
-        "Content-Type":
-          "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
       },
-      body: form.toString(),
+      body: JSON.stringify({
+        email,
+        password,
+      }),
       cache: "no-store",
     },
   );
@@ -107,6 +104,7 @@ export async function login(
 
     try {
       const parsed = JSON.parse(body);
+
       throw new Error(
         parsed?.detail ??
           parsed?.error?.message ??
@@ -123,7 +121,6 @@ export async function login(
 
   return response.json();
 }
-
 export async function logout() {
   try {
     await apiFetch("/auth/logout", {

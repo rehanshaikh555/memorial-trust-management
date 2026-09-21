@@ -10,7 +10,6 @@ import {
   Settings,
   ShieldCheck,
   Users,
-  UserRoundCog,
 } from "lucide-react";
 
 export type AppRole =

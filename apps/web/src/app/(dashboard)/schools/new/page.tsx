@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   ArrowLeft,
   Building2,
@@ -11,7 +11,9 @@ import { useRouter } from "next/navigation";
 
 import {
   useCreateSchool,
+  useTrustList,
 } from "@/hooks/use-academic-structure";
+import { useAuth } from "@/hooks/use-auth";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,18 +26,33 @@ import {
 
 export default function NewSchoolPage() {
   const router = useRouter();
+  const { user, loading: authLoading } = useAuth();
 
-  const create =
-    useCreateSchool();
+  const create = useCreateSchool();
+  const trusts = useTrustList();
 
-  const [form, setForm] =
-    useState({
-      name: "",
-      code: "",
-      address: "",
-      phone: "",
-      email: "",
-    });
+  const [selectedTrustId, setSelectedTrustId] =
+    useState("");
+
+  const resolvedTrustId =
+    user?.trust_id ?? selectedTrustId;
+
+  const availableTrusts = useMemo(
+    () =>
+      (trusts.data ?? []).filter(
+        (trust) => trust.is_active,
+      ),
+    [trusts.data],
+  );
+
+  const requiresTrustSelection =
+    !authLoading && !user?.trust_id;
+
+  const [form, setForm] = useState({
+    name: "",
+    code: "",
+    address: "",
+  });
 
   function update(
     key: keyof typeof form,
@@ -52,20 +69,18 @@ export default function NewSchoolPage() {
   ) {
     event.preventDefault();
 
+    if (!resolvedTrustId) {
+      return;
+    }
+
     try {
       const school =
         await create.mutateAsync({
+          trust_id: resolvedTrustId,
           name: form.name.trim(),
           code: form.code.trim(),
           address:
-            form.address.trim() ||
-            null,
-          phone:
-            form.phone.trim() ||
-            null,
-          email:
-            form.email.trim() ||
-            null,
+            form.address.trim() || null,
         });
 
       router.push(
@@ -75,6 +90,13 @@ export default function NewSchoolPage() {
       // Error shown below.
     }
   }
+
+  const canSubmit =
+    Boolean(resolvedTrustId) &&
+    Boolean(form.name.trim()) &&
+    Boolean(form.code.trim()) &&
+    !create.isPending &&
+    !authLoading;
 
   return (
     <div className="mx-auto max-w-4xl">
@@ -110,47 +132,86 @@ export default function NewSchoolPage() {
             onSubmit={submit}
             className="space-y-5"
           >
-            <div className="grid gap-4 sm:grid-cols-2">
-              {[
-                ["name", "School name"],
-                ["code", "School code"],
-                ["phone", "Phone"],
-                ["email", "Email"],
-              ].map(
-                ([key, label]) => (
-                  <div key={key}>
-                    <label className="mb-1.5 block text-xs font-semibold text-slate-500">
-                      {label}
-                    </label>
+            {requiresTrustSelection && (
+              <div>
+                <label className="mb-1.5 block text-xs font-semibold text-slate-500">
+                  Trust
+                </label>
 
-                    <Input
-                      type={
-                        key === "email"
-                          ? "email"
-                          : "text"
-                      }
-                      required={[
-                        "name",
-                        "code",
-                      ].includes(key)}
-                      value={
-                        form[
-                          key as keyof typeof form
-                        ]
-                      }
-                      onChange={(
-                        event,
-                      ) =>
-                        update(
-                          key as keyof typeof form,
-                          event.target.value,
-                        )
-                      }
-                      className="rounded-xl"
-                    />
-                  </div>
-                ),
-              )}
+                <select
+                  value={selectedTrustId}
+                  onChange={(event) =>
+                    setSelectedTrustId(
+                      event.target.value,
+                    )
+                  }
+                  required
+                  disabled={trusts.isLoading}
+                  className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm outline-none focus:border-[#27348B]"
+                >
+                  <option value="">
+                    {trusts.isLoading
+                      ? "Loading trusts..."
+                      : "Select trust"}
+                  </option>
+
+                  {availableTrusts.map(
+                    (trust) => (
+                      <option
+                        key={trust.id}
+                        value={trust.id}
+                      >
+                        {trust.name} ({trust.code})
+                      </option>
+                    ),
+                  )}
+                </select>
+              </div>
+            )}
+
+            {user?.trust_id && (
+              <div className="rounded-xl bg-[#27348B]/5 px-4 py-3 text-xs text-[#27348B]">
+                School will be created under your
+                assigned trust.
+              </div>
+            )}
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="mb-1.5 block text-xs font-semibold text-slate-500">
+                  School name
+                </label>
+
+                <Input
+                  value={form.name}
+                  onChange={(event) =>
+                    update(
+                      "name",
+                      event.target.value,
+                    )
+                  }
+                  required
+                  className="rounded-xl"
+                />
+              </div>
+
+              <div>
+                <label className="mb-1.5 block text-xs font-semibold text-slate-500">
+                  School code
+                </label>
+
+                <Input
+                  value={form.code}
+                  onChange={(event) =>
+                    update(
+                      "code",
+                      event.target.value,
+                    )
+                  }
+                  required
+                  className="rounded-xl"
+                />
+              </div>
 
               <div className="sm:col-span-2">
                 <label className="mb-1.5 block text-xs font-semibold text-slate-500">
@@ -178,6 +239,13 @@ export default function NewSchoolPage() {
               </div>
             )}
 
+            {requiresTrustSelection &&
+              trusts.isError && (
+                <div className="rounded-2xl bg-red-50 p-4 text-sm text-red-700">
+                  Could not load trusts.
+                </div>
+              )}
+
             <div className="flex justify-end gap-3 border-t border-slate-100 pt-5">
               <Link href="/schools">
                 <Button
@@ -191,7 +259,7 @@ export default function NewSchoolPage() {
 
               <Button
                 type="submit"
-                disabled={create.isPending}
+                disabled={!canSubmit}
                 className="rounded-xl bg-[#27348B] hover:bg-[#202c78]"
               >
                 {create.isPending && (

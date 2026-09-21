@@ -1,18 +1,21 @@
-"use client";
+﻿"use client";
 
 import {
   CalendarDays,
   CheckCircle2,
   Plus,
 } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import {
   useAcademicYears,
   useCreateAcademicYear,
   useSetCurrentAcademicYear,
   useDeactivateAcademicYear,
+  useTrustList,
 } from "@/hooks/use-academic-structure";
+
+import { useAuth } from "@/hooks/use-auth";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,6 +25,10 @@ import {
 } from "@/components/ui/card";
 
 export default function AcademicYearsPage() {
+  const { user, loading: authLoading } = useAuth();
+
+  const trusts = useTrustList();
+
   const years =
     useAcademicYears();
 
@@ -33,6 +40,23 @@ export default function AcademicYearsPage() {
 
   const deactivate =
     useDeactivateAcademicYear();
+
+  const [selectedTrustId, setSelectedTrustId] =
+    useState("");
+
+  const resolvedTrustId =
+    user?.trust_id ?? selectedTrustId;
+
+  const availableTrusts = useMemo(
+    () =>
+      (trusts.data ?? []).filter(
+        (trust) => trust.is_active,
+      ),
+    [trusts.data],
+  );
+
+  const requiresTrustSelection =
+    !authLoading && !user?.trust_id;
 
   const [name, setName] =
     useState("");
@@ -48,7 +72,12 @@ export default function AcademicYearsPage() {
   ) {
     event.preventDefault();
 
+    if (!resolvedTrustId) {
+      return;
+    }
+
     await create.mutateAsync({
+      trust_id: resolvedTrustId,
       name: name.trim(),
       start_date: startDate,
       end_date: endDate,
@@ -98,6 +127,49 @@ export default function AcademicYearsPage() {
               onSubmit={submit}
               className="mt-6 space-y-4"
             >
+              {requiresTrustSelection && (
+                <div>
+                  <label className="mb-1.5 block text-xs font-semibold text-slate-500">
+                    Trust
+                  </label>
+
+                  <select
+                    value={selectedTrustId}
+                    onChange={(event) =>
+                      setSelectedTrustId(
+                        event.target.value,
+                      )
+                    }
+                    required
+                    disabled={trusts.isLoading}
+                    className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm outline-none focus:border-[#27348B]"
+                  >
+                    <option value="">
+                      {trusts.isLoading
+                        ? "Loading trusts..."
+                        : "Select trust"}
+                    </option>
+
+                    {availableTrusts.map(
+                      (trust) => (
+                        <option
+                          key={trust.id}
+                          value={trust.id}
+                        >
+                          {trust.name} ({trust.code})
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </div>
+              )}
+
+              {user?.trust_id && (
+                <div className="rounded-xl bg-[#27348B]/5 px-4 py-3 text-xs text-[#27348B]">
+                  Academic year will be created
+                  under your assigned trust.
+                </div>
+              )}
               <div>
                 <label className="mb-1.5 block text-xs font-semibold text-slate-500">
                   Name
@@ -162,7 +234,11 @@ export default function AcademicYearsPage() {
 
               <Button
                 type="submit"
-                disabled={create.isPending}
+                disabled={
+                  create.isPending ||
+                  authLoading ||
+                  !resolvedTrustId
+                }
                 className="w-full rounded-xl bg-[#27348B] hover:bg-[#202c78]"
               >
                 Create academic year
@@ -199,7 +275,7 @@ export default function AcademicYearsPage() {
                         </p>
 
                         <p className="text-xs text-slate-500">
-                          {year.start_date} →{" "}
+                          {year.start_date} â†’{" "}
                           {year.end_date}
                         </p>
                       </div>

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import {
   createContext,
@@ -68,7 +68,39 @@ export function AuthProvider({
   }
 
   useEffect(() => {
-    void refreshUser();
+    let cancelled = false;
+
+    async function loadUser() {
+      const token = getAccessToken();
+
+      if (!token) {
+        if (!cancelled) {
+          setUser(null);
+          setLoading(false);
+        }
+        return;
+      }
+
+      try {
+        const response =
+          await apiFetch<CurrentUser>("/auth/me");
+
+        if (!cancelled) {
+          setUser(response);
+        }
+      } catch {
+        if (!cancelled) {
+          clearAccessToken();
+          setUser(null);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    }
+
+    void loadUser();
 
     const handler = () => {
       setUser(null);
@@ -81,6 +113,8 @@ export function AuthProvider({
     );
 
     return () => {
+      cancelled = true;
+
       window.removeEventListener(
         "memorial:unauthorized",
         handler,

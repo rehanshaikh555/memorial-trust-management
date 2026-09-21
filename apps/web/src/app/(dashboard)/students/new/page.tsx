@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
@@ -227,7 +227,7 @@ export default function NewStudentPage() {
         </div>
 
         <p className="mt-3 text-sm text-slate-500">
-          Create the student's permanent identity and initial enrollment.
+          Create the student&apos;s permanent identity and initial enrollment.
         </p>
       </div>
 
@@ -447,7 +447,7 @@ export default function NewStudentPage() {
                 </CardTitle>
 
                 <p className="mt-1 text-xs text-slate-500">
-                  Select the student's school, academic year and class.
+                  Select the student&apos;s school, academic year and class.
                 </p>
               </div>
             </div>
@@ -485,7 +485,7 @@ export default function NewStudentPage() {
                           key={school.id}
                           value={school.id}
                         >
-                          {school.name} ·{" "}
+                          {school.name} Â·{" "}
                           {school.code}
                         </option>
                       ),
@@ -536,7 +536,7 @@ export default function NewStudentPage() {
                         >
                           {year.name}
                           {year.is_current
-                            ? " · Current"
+                            ? " Â· Current"
                             : ""}
                         </option>
                       ),
@@ -589,7 +589,7 @@ export default function NewStudentPage() {
                       >
                         {item.name}
                         {item.section
-                          ? ` · ${item.section}`
+                          ? ` Â· ${item.section}`
                           : ""}
                       </option>
                     ),
@@ -635,9 +635,9 @@ export default function NewStudentPage() {
               </p>
 
               <p className="mt-1 text-xs leading-5 text-slate-500">
-                The student's permanent identity remains independent
+                The student&apos;s permanent identity remains independent
                 from this enrollment. School, academic year and class
-                define the student's current academic placement.
+                define the student&apos;s current academic placement.
               </p>
             </div>
           </CardContent>

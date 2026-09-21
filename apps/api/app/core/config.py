@@ -1,4 +1,4 @@
-﻿from functools import lru_cache
+from functools import lru_cache
 from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -14,6 +14,11 @@ class Settings(BaseSettings):
     debug: bool = True
 
     api_v1_prefix: str = "/api/v1"
+
+    cors_origins: str = (
+        "http://localhost:3000,"
+        "http://127.0.0.1:3000"
+    )
 
     database_url: str = ""
 

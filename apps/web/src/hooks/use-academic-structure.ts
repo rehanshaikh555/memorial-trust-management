@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import {
   useMutation,
@@ -8,6 +8,13 @@ import {
 
 import { apiFetch } from "@/lib/api";
 
+export interface TrustRecord {
+  id: string;
+  name: string;
+  code: string;
+  description?: string | null;
+  is_active: boolean;
+}
 export interface SchoolRecord {
   id: string;
   name: string;
@@ -62,6 +69,22 @@ function normalize<T>(
   return [];
 }
 
+export function useTrustList() {
+  return useQuery({
+    queryKey: ["trusts"],
+    queryFn: async () =>
+      normalize<TrustRecord>(
+        await apiFetch<unknown>("/trust"),
+        [
+          "items",
+          "data",
+          "results",
+          "records",
+          "trusts",
+        ],
+      ),
+  });
+}
 export function useSchoolList() {
   return useQuery({
     queryKey: ["schools"],

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import {
   Bell,
@@ -6,7 +6,6 @@ import {
   LogOut,
   Menu,
   Search,
-  ShieldCheck,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
