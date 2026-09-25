@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+﻿from datetime import datetime, timezone
 from uuid import UUID
 
 from sqlalchemy import and_, or_, select, update
@@ -105,6 +105,7 @@ def create(db: Session, *, actor_user_id, values):
         raise ValueError("School is inactive.")
 
     teacher_id = values["teacher_id"].strip()
+    values["teacher_id"] = teacher_id
 
     if db.scalar(
         select(Teacher).where(
@@ -117,7 +118,6 @@ def create(db: Session, *, actor_user_id, values):
 
     teacher = Teacher(
         **values,
-        teacher_id=teacher_id,
         status=STATUS_DRAFT,
         is_active=False,
     )
