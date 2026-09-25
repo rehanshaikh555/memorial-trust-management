@@ -1,4 +1,4 @@
-from datetime import date, datetime, timezone
+﻿from datetime import date, datetime, timezone
 from uuid import UUID
 
 from sqlalchemy import and_, exists, select, update
@@ -412,8 +412,8 @@ def approve(
     *,
     actor_user_id: UUID,
 ) -> Student:
-    if student.status not in {STATUS_SUBMITTED, STATUS_READY}:
-        raise ValueError("Only submitted or ready applications can be approved.")
+    if student.status != STATUS_READY:
+        raise ValueError("Only applications ready for approval can be approved.")
 
     documents = list(
         db.scalars(
