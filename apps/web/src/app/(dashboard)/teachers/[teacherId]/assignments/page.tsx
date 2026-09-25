@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -77,6 +77,7 @@ export default function TeacherAssignmentsPage() {
   });
 
   const create = useCreateTeacherAssignment();
+  const isInactive = record?.status === "INACTIVE" || record?.status === "DEACTIVATED";
 
   const [editingId, setEditingId] = useState<string | null>(null);
 
@@ -246,6 +247,11 @@ export default function TeacherAssignmentsPage() {
       <div className="grid gap-6 xl:grid-cols-[0.8fr_1.2fr]">
         <Card className="h-fit border-white/50 bg-white/70 shadow-xl shadow-[#27348B]/10 backdrop-blur-xl">
           <CardHeader>
+            {isInactive && (
+              <div className="mb-4 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
+                This teacher is inactive. Assignment history is available below, but new assignments and edits are disabled.
+              </div>
+            )}
             <CardTitle className="flex items-center gap-2 text-sm">
               {editingId ? (
                 <Edit3 className="size-4 text-[#27348B]" />
@@ -289,7 +295,7 @@ export default function TeacherAssignmentsPage() {
                   );
                   setClassId("");
                 }}
-                disabled={Boolean(editingId)}
+                disabled={Boolean(editingId) || isInactive}
                 className="flex h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm outline-none focus:border-[#27348B]"
               >
                 <option value="">
@@ -471,6 +477,11 @@ export default function TeacherAssignmentsPage() {
 
         <Card className="border-white/50 bg-white/70 shadow-xl shadow-[#27348B]/10 backdrop-blur-xl">
           <CardHeader>
+            {isInactive && (
+              <div className="mb-4 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
+                This teacher is inactive. Assignment history is available below, but new assignments and edits are disabled.
+              </div>
+            )}
             <div className="flex flex-wrap items-center justify-between gap-3">
               <CardTitle className="flex items-center gap-2 text-sm">
                 <BriefcaseBusiness className="size-4 text-[#27348B]" />
@@ -641,4 +652,3 @@ export default function TeacherAssignmentsPage() {
     </div>
   );
 }
-

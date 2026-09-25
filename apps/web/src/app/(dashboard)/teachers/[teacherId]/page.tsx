@@ -127,6 +127,7 @@ export default function TeacherDetailPage() {
   const [qualification, setQualification] = useState("");
 
   const record = teacher.data;
+  const isInactive = record?.status === "INACTIVE" || record?.status === "DEACTIVATED";
 
   const school = useSchool(record?.school_id);
   const assignments = useTeacherAssignments({
@@ -301,7 +302,8 @@ export default function TeacherDetailPage() {
                 }}
                 variant="danger"
               />
-            )}
+            )}                {!isInactive && (
+
 
             <Link
               href={`/teachers/${teacherId}/assignments`}
@@ -310,8 +312,9 @@ export default function TeacherDetailPage() {
               <BriefcaseBusiness className="mr-2 size-4" />
               Manage assignments
             </Link>
+                )}
 
-            {!editing && record.status !== "DEACTIVATED" && (
+            {!editing && !isInactive && (
               <Button
                 type="button"
                 variant="outline"
@@ -333,7 +336,7 @@ export default function TeacherDetailPage() {
         </CardContent>
       </Card>
 
-      {editing && (
+      {editing && !isInactive && (
         <Card className="mt-6 border-white/50 bg-white/70 shadow-xl backdrop-blur-xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-sm">
@@ -658,8 +661,8 @@ export default function TeacherDetailPage() {
                     <p className="mt-3 text-xs text-slate-500">
                       {assignment.start_date}
                       {assignment.end_date
-                        ? ` → ${assignment.end_date}`
-                        : " → Current"}
+                        ? ` â†’ ${assignment.end_date}`
+                        : " â†’ Current"}
                     </p>
                   </div>
                 ))}

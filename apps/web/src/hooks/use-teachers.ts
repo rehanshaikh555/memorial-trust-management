@@ -210,11 +210,14 @@ export function useUpdateTeacher(teacherId: string) {
         body: JSON.stringify(payload),
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: teacherKeys.detail(teacherId),
-      });
-      queryClient.invalidateQueries({ queryKey: teacherKeys.all });
-    },
+        queryClient.invalidateQueries({
+          queryKey: teacherKeys.detail(teacherId),
+        });
+        queryClient.invalidateQueries({ queryKey: teacherKeys.all });
+        queryClient.invalidateQueries({
+          queryKey: ["teachers", "assignments"],
+        });
+      },
   });
 }
 
@@ -238,11 +241,14 @@ export function useSubmitTeacher(teacherId: string) {
         { method: "POST" },
       ),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: teacherKeys.detail(teacherId),
-      });
-      queryClient.invalidateQueries({ queryKey: teacherKeys.all });
-    },
+        queryClient.invalidateQueries({
+          queryKey: teacherKeys.detail(teacherId),
+        });
+        queryClient.invalidateQueries({ queryKey: teacherKeys.all });
+        queryClient.invalidateQueries({
+          queryKey: ["teachers", "assignments"],
+        });
+      },
   });
 }
 
@@ -256,11 +262,14 @@ export function useReadyTeacher(teacherId: string) {
         { method: "POST" },
       ),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: teacherKeys.detail(teacherId),
-      });
-      queryClient.invalidateQueries({ queryKey: teacherKeys.all });
-    },
+        queryClient.invalidateQueries({
+          queryKey: teacherKeys.detail(teacherId),
+        });
+        queryClient.invalidateQueries({ queryKey: teacherKeys.all });
+        queryClient.invalidateQueries({
+          queryKey: ["teachers", "assignments"],
+        });
+      },
   });
 }
 
@@ -274,11 +283,14 @@ export function useApproveTeacher(teacherId: string) {
         { method: "POST" },
       ),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: teacherKeys.detail(teacherId),
-      });
-      queryClient.invalidateQueries({ queryKey: teacherKeys.all });
-    },
+        queryClient.invalidateQueries({
+          queryKey: teacherKeys.detail(teacherId),
+        });
+        queryClient.invalidateQueries({ queryKey: teacherKeys.all });
+        queryClient.invalidateQueries({
+          queryKey: ["teachers", "assignments"],
+        });
+      },
   });
 }
 
@@ -292,11 +304,14 @@ export function useDeactivateTeacher(teacherId: string) {
         { method: "POST" },
       ),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: teacherKeys.detail(teacherId),
-      });
-      queryClient.invalidateQueries({ queryKey: teacherKeys.all });
-    },
+        queryClient.invalidateQueries({
+          queryKey: teacherKeys.detail(teacherId),
+        });
+        queryClient.invalidateQueries({ queryKey: teacherKeys.all });
+        queryClient.invalidateQueries({
+          queryKey: ["teachers", "assignments"],
+        });
+      },
   });
 }
 
