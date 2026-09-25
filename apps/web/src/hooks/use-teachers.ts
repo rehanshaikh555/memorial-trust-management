@@ -1,4 +1,4 @@
-﻿import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { apiFetch } from "@/lib/api";
 
@@ -359,20 +359,22 @@ export function useUpdateTeacherAssignment(assignmentId: string) {
   });
 }
 
-export function useDeactivateTeacherAssignment(
-  assignmentId: string,
-) {
+export function useDeactivateTeacherAssignment() {
   const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: () =>
+  return useMutation<TeacherAssignmentRecord, Error, string>({
+    mutationFn: (assignmentId: string) =>
       apiFetch<TeacherAssignmentRecord>(
         `/teachers/assignments/${assignmentId}/deactivate`,
         { method: "POST" },
       ),
-    onSuccess: () => {
+    onSuccess: (assignment) => {
       queryClient.invalidateQueries({
         queryKey: ["teachers", "assignments"],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: teacherKeys.detail(assignment.teacher_id),
       });
     },
   });

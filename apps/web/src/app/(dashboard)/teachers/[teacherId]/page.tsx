@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -302,6 +302,14 @@ export default function TeacherDetailPage() {
                 variant="danger"
               />
             )}
+
+            <Link
+              href={`/teachers/${teacherId}/assignments`}
+              className="inline-flex h-10 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:border-[#27348B]/30 hover:text-[#27348B]"
+            >
+              <BriefcaseBusiness className="mr-2 size-4" />
+              Manage assignments
+            </Link>
 
             {!editing && record.status !== "DEACTIVATED" && (
               <Button
