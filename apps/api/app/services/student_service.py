@@ -1,7 +1,8 @@
-﻿from datetime import date, datetime, timezone
+from datetime import date, datetime, timezone
 from uuid import UUID
 
-from sqlalchemy import and_, exists, select, update
+from sqlalchemy import select
+from sqlalchemy import update as sql_update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -110,7 +111,7 @@ def list_students(
 
     statement = (
         select(Student, current_enrollment)
-        .join(current_enrollment, True, isouter=True)
+        .join(current_enrollment, current_enrollment.c.student_id == Student.id, isouter=True)
         .join(School, School.id == current_enrollment.c.school_id, isouter=True)
     )
 
@@ -136,7 +137,7 @@ def list_students(
 
     statement = statement.order_by(Student.last_name, Student.first_name)
 
-    return list(db.execute(statement).all())
+    return [(row[0], row[1]) for row in db.execute(statement).all()]
 
 
 def _validate_enrollment_target(
@@ -620,7 +621,7 @@ def add_guardian(
 
     if is_primary:
         db.execute(
-            update(StudentGuardian)
+            sql_update(StudentGuardian)
             .where(StudentGuardian.student_id == student.id)
             .values(is_primary=False)
         )
@@ -699,7 +700,7 @@ def update_guardian(
 
     if is_primary is True:
         db.execute(
-            update(StudentGuardian)
+            sql_update(StudentGuardian)
             .where(StudentGuardian.student_id == student.id)
             .values(is_primary=False)
         )

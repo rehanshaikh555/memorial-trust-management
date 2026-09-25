@@ -1,7 +1,8 @@
-﻿from datetime import datetime, timezone
+from datetime import datetime, timezone
 from uuid import UUID
 
-from sqlalchemy import and_, or_, select, update
+from sqlalchemy import and_, or_, select
+from sqlalchemy import update as sql_update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
@@ -314,7 +315,7 @@ def deactivate(
     teacher.is_active = False
 
     db.execute(
-        update(TeacherAssignment)
+        sql_update(TeacherAssignment)
         .where(
             TeacherAssignment.teacher_id == teacher.id,
             TeacherAssignment.status == ASSIGNMENT_ACTIVE,
