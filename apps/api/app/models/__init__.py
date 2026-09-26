@@ -9,6 +9,7 @@ from app.models.enrollment import Enrollment
 from app.models.guardian import Guardian
 from app.models.notification import Notification
 from app.models.permission import Permission
+from app.models.refresh_session import RefreshSession
 from app.models.role import Role
 from app.models.role_permission import RolePermission
 from app.models.school import School
@@ -36,6 +37,7 @@ __all__ = [
     "Guardian",
     "Notification",
     "Permission",
+    "RefreshSession",
     "Role",
     "RolePermission",
     "School",
